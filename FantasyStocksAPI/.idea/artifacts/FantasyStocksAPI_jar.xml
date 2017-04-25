@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="FantasyStocksAPI:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/FantasyStocksAPI_jar</output-path>
+    <root id="archive" name="FantasyStocksAPI.jar">
+      <element id="module-output" name="FantasyStocksAPI" />
+      <element id="module-test-output" name="FantasyStocksAPI" />
+      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/plugins/junit/lib/junit-jupiter-api-5.0.0-M3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/plugins/junit/lib/opentest4j-1.0.0-M1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
