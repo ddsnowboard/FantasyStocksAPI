@@ -25,6 +25,11 @@ public class FullUser implements User {
         return Arrays.stream(Player.getPlayers()).filter(p -> p.getUser().equals(this)).toArray(i -> new Player[i]);
     }
 
+    @Override
+    public FullUser getInFull() {
+        return this;
+    }
+
     public boolean equals(Object o) {
         if(!(o instanceof User))
             return false;

@@ -22,16 +22,21 @@ public class FantasyStocksAPI {
 
     private String sessionId;
 
+    protected boolean lazyEvaluation = false;
+
     private FullUser user = null;
 
     private FantasyStocksAPI() {
-
     }
 
     public static FantasyStocksAPI getInstance() {
         if (instance == null)
             instance = new FantasyStocksAPI();
         return instance;
+    }
+
+    public void setLazyEvaluation(boolean val) {
+        lazyEvaluation = val;
     }
 
     public FullUser getUser() {

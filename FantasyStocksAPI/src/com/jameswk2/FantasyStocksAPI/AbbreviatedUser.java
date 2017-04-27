@@ -26,6 +26,11 @@ public class AbbreviatedUser implements User {
     }
 
     @Override
+    public FullUser getInFull() {
+        return User.get(id);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if(o instanceof User)
             return getId() == ((User) o).getId();
