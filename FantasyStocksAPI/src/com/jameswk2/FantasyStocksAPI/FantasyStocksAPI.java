@@ -97,6 +97,11 @@ public class FantasyStocksAPI {
         JsonObject obj = new JsonObject();
         Gson gson = new Gson();
         obj.add("registrationToken", new JsonPrimitive(id));
-        URLUtils.post(url, gson.toJson(obj));
+        JsonElement response = gson.fromJson(URLUtils.post(url, gson.toJson(obj)), JsonElement.class);
+        JsonObject responseObject = response.getAsJsonObject();
+        if(responseObject.has("success"))
+            return;
+        else
+            throw new RuntimeException(responseObject.getAsString());
     }
 }
