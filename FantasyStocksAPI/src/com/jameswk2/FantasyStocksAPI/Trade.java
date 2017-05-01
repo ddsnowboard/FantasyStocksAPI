@@ -32,7 +32,7 @@ public interface Trade {
         jsonObj.addProperty("floor", floor.getId());
         Gson gson = new Gson();
         try {
-            URL url = new URL(FantasyStocksAPI.BASE_URL + FullTrade.MODEL_NAME + "/create/");
+            URL url = new URL(FantasyStocksAPI.BASE_URL + MODEL_NAME + "/create/");
             JsonObject jsonResponse = gson.fromJson(URLUtils.post(url, gson.toJson(jsonObj)), JsonObject.class);
             System.out.println(jsonObj);
             System.out.println(jsonResponse);
@@ -61,5 +61,9 @@ public interface Trade {
 
     static FullTrade get(int id) {
         return (FullTrade) Model.getModel(id, MODEL_NAME, FullUser.class);
+    }
+
+    static FullTrade[] getTrades() {
+        return (FullTrade[]) Model.getModel(MODEL_NAME, FullTrade.class);
     }
 }
