@@ -127,4 +127,11 @@ public class APITests {
         assertNotNull(api.getSessionId());
         assertTrue(Arrays.stream(User.getUsers()).filter(u -> u.getUsername().equals(USERNAME)).findFirst().isPresent());
     }
+
+    @Test
+    public void registerToken() {
+        final String THIS_IS_A_FAKE_ID = "salkdfjldksajfsaldkjfoiuoiuoiuwoqeiruqwoeirua,smdnc";
+        FantasyStocksAPI.getInstance().registerFirebaseId(THIS_IS_A_FAKE_ID);
+        System.out.println("GO CHECK THAT THIS RANDOM ID GOT ADDED");
+    }
 }

@@ -14,7 +14,7 @@ import java.net.URL;
  */
 class Model {
     static Object getModel(int id, String modelName, Class modelClass) {
-        final String url = FantasyStocksAPI.DEFAULT_URL + modelName + "/view/" + id;
+        final String url = FantasyStocksAPI.BASE_URL + modelName + "/view/" + id;
         try {
             URL urlObject = new URL(url);
             String response = URLUtils.get(urlObject);
@@ -33,7 +33,7 @@ class Model {
     }
 
     static Object[] getModel(String modelName, Class modelClass) {
-        final String url = FantasyStocksAPI.DEFAULT_URL + modelName + "/view/";
+        final String url = FantasyStocksAPI.BASE_URL + modelName + "/view/";
         try {
             URL urlObject = new URL(url);
             String response = URLUtils.get(urlObject);

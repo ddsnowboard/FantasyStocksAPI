@@ -1,7 +1,6 @@
 package com.jameswk2.FantasyStocksAPI;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.net.MalformedURLException;
@@ -22,7 +21,7 @@ public interface Player {
         jsonObj.addProperty("floor", floor.getId());
         Gson gson = new Gson();
         try {
-            URL url = new URL(FantasyStocksAPI.DEFAULT_URL + FullPlayer.MODEL_NAME + "/create/");
+            URL url = new URL(FantasyStocksAPI.BASE_URL + FullPlayer.MODEL_NAME + "/create/");
             JsonObject jsonResponse = gson.fromJson(URLUtils.post(url, gson.toJson(jsonObj)), JsonObject.class);
             if(jsonResponse.has("error"))
                 throw new RuntimeException(jsonResponse.get("error").getAsString());

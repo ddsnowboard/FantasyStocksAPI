@@ -1,9 +1,6 @@
 package com.jameswk2.FantasyStocksAPI;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import com.jameswk2.FantasyStocksAPI.JsonResponses.AuthResponse;
 
 import java.net.MalformedURLException;
@@ -15,8 +12,8 @@ import java.util.Map;
  * Created by ddsnowboard on 4/17/17.
  */
 public class FantasyStocksAPI {
-    static final String DEFAULT_URL = "http://fantasystocks.herokuapp.com/api/v1/";
-    // static final String DEFAULT_URL = "http://localhost:8000/api/v1/";
+    static final String BASE_URL = "http://fantasystocks.herokuapp.com/api/v1/";
+    // static final String BASE_URL = "http://localhost:8000/api/v1/";
     static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX").create();
     private static FantasyStocksAPI instance = null;
 
@@ -43,7 +40,7 @@ public class FantasyStocksAPI {
 
     public void login(String username, String password) {
         try {
-            URL url = new URL(DEFAULT_URL + "auth/getKey/");
+            URL url = new URL(BASE_URL + "auth/getKey/");
             Map<String, String> jsonRequest = new HashMap<>();
             jsonRequest.put("username", username);
             jsonRequest.put("password", password);
@@ -61,7 +58,7 @@ public class FantasyStocksAPI {
 
     public User register(String username, String password) {
         try {
-            URL url = new URL(DEFAULT_URL + "user/create/");
+            URL url = new URL(BASE_URL + "user/create/");
             Map<String, String> jsonRequest = new HashMap<>();
             jsonRequest.put("username", username);
             jsonRequest.put("password", password);
@@ -88,5 +85,18 @@ public class FantasyStocksAPI {
 
     protected String getSessionId() {
         return sessionId;
+    }
+
+    public void registerFirebaseId(String id) {
+        final URL url;
+        try {
+            url = new URL(FantasyStocksAPI.BASE_URL + "android/register/");
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("I messed up the url");
+        }
+        JsonObject obj = new JsonObject();
+        Gson gson = new Gson();
+        obj.add("registrationToken", new JsonPrimitive(id));
+        URLUtils.post(url, gson.toJson(obj));
     }
 }

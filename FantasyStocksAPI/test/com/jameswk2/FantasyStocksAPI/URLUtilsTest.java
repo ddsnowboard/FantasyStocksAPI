@@ -14,7 +14,7 @@ class URLUtilsTest {
     @Test
     void get() throws MalformedURLException {
         // final String URL_STRING = "http://localhost:8000/api/v1/test/";
-        final String URL_STRING = FantasyStocksAPI.DEFAULT_URL + "test/";
+        final String URL_STRING = FantasyStocksAPI.BASE_URL + "test/";
         URL url = new URL(URL_STRING);
         HashMap<String, String> qString = new HashMap<>();
         qString.put("Zilles", "Angrave");
@@ -24,7 +24,7 @@ class URLUtilsTest {
     @Test
     void post() throws MalformedURLException {
         // final String URL_STRING = "http://localhost:8000/api/v1/test/";
-        final String URL_STRING = FantasyStocksAPI.DEFAULT_URL + "test/";
+        final String URL_STRING = FantasyStocksAPI.BASE_URL + "test/";
         URL url = new URL(URL_STRING);
         HashMap<String, String> qString = new HashMap<>();
         qString.put("Zilles", "Angrave");
