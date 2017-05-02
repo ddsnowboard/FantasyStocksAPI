@@ -45,7 +45,7 @@ public class APITests {
 
         User[] users = User.getUsers();
         User myUser = api.getUser();
-        assertTrue(Arrays.stream(users).filter(u -> u.equals(myUser)).findFirst().isPresent());
+        assertTrue(Arrays.stream(users).anyMatch(u -> u.equals(myUser)));
         assertFalse(Arrays.stream(users).filter(u -> !u.equals(myUser)).findFirst().get().getUsername().equals(myUser.getUsername()));
     }
 
@@ -59,7 +59,7 @@ public class APITests {
                 .filter(p -> p.getFloor().equals(randomFloor))
                 .findAny()
                 .get();
-        Arrays.stream(randomPlayer.getStocks()).forEach(s -> System.out.println(s));
+        Arrays.stream(randomPlayer.getStocks()).forEach(System.out::println);
     }
 
     @Test
@@ -72,9 +72,7 @@ public class APITests {
             System.out.println(newPlayer);
             assertTrue(Arrays.stream(Player.getPlayers())
                     .filter(p -> p.getFloor().equals(randomFloor))
-                    .filter(p -> p.getUser().equals(myUser))
-                    .findFirst()
-                    .isPresent());
+                    .anyMatch(p -> p.getUser().equals(myUser)));
             assertEquals(newPlayer.getUser(), myUser);
             assertEquals(newPlayer.getFloor(), randomFloor);
         }
@@ -134,4 +132,5 @@ public class APITests {
         FantasyStocksAPI.getInstance().registerFirebaseId(THIS_IS_A_FAKE_ID);
         System.out.println("GO CHECK THAT THIS RANDOM ID GOT ADDED");
     }
+
 }

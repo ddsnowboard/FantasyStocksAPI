@@ -12,9 +12,6 @@ import java.util.Scanner;
  * Created by ddsnowboard on 4/16/17.
  */
 class URLUtils {
-    /* TODO: These should take the auth stuff from the FantasyStocksAPI class and inject it automatically. Also, the
-     *  auth stuff should be in the FantasyStocksAPI class.
-     */
     public static String get(URL url, HashMap<String, String> queryString) {
         String urlBase = url.toString();
         String sessionId = FantasyStocksAPI.getInstance().getSessionId();

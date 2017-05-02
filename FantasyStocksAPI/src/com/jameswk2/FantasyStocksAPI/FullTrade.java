@@ -46,4 +46,14 @@ public class FullTrade implements Trade {
     public static FullTrade get(int id) {
         return (FullTrade) Model.getModel(id, MODEL_NAME, FullUser.class);
     }
+
+    @Override
+    public void accept() {
+        TradeUtils.acceptTrade(this);
+    }
+
+    @Override
+    public void decline() {
+        TradeUtils.declineTrade(this);
+    }
 }

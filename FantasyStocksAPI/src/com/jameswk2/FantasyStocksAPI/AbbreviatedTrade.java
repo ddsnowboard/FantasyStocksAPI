@@ -49,4 +49,14 @@ public class AbbreviatedTrade implements Trade {
     public Date getDate() {
         return date;
     }
+
+    @Override
+    public void accept() {
+        TradeUtils.acceptTrade(this);
+    }
+
+    @Override
+    public void decline() {
+        TradeUtils.declineTrade(this);
+    }
 }

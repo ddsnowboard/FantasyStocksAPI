@@ -66,4 +66,9 @@ public interface Trade {
     static FullTrade[] getTrades() {
         return (FullTrade[]) Model.getModel(MODEL_NAME, FullTrade.class);
     }
+
+    void accept();
+
+    void decline();
+
 }
