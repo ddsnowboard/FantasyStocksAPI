@@ -60,7 +60,7 @@ public interface Trade {
     Date getDate();
 
     static FullTrade get(int id) {
-        return (FullTrade) Model.getModel(id, MODEL_NAME, FullUser.class);
+        return (FullTrade) Model.getModel(id, MODEL_NAME, FullTrade.class);
     }
 
     static FullTrade[] getTrades() {

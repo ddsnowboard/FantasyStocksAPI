@@ -34,7 +34,7 @@
       <file leaf-file-name="FantasyStocksAPI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jameswk2/FantasyStocksAPI/FantasyStocksAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="838">
+            <state relative-caret-position="1764">
               <caret line="104" column="52" lean-forward="false" selection-start-line="104" selection-start-column="52" selection-end-line="104" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -46,8 +46,8 @@
       <file leaf-file-name="Trade.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/jameswk2/FantasyStocksAPI/Trade.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="66" column="24" lean-forward="false" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
+            <state relative-caret-position="738">
+              <caret line="62" column="66" lean-forward="false" selection-start-line="62" selection-start-column="66" selection-end-line="62" selection-end-column="66" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -162,9 +162,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -628,11 +628,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="2559" y="1013" width="1922" height="1033" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32860345" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32760474" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1059,7 +1059,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jameswk2/FantasyStocksAPI/FantasyStocksAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="838">
+        <state relative-caret-position="1764">
           <caret line="104" column="52" lean-forward="false" selection-start-line="104" selection-start-column="52" selection-end-line="104" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1077,8 +1077,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jameswk2/FantasyStocksAPI/Trade.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="66" column="24" lean-forward="false" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
+        <state relative-caret-position="738">
+          <caret line="62" column="66" lean-forward="false" selection-start-line="62" selection-start-column="66" selection-end-line="62" selection-end-column="66" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
