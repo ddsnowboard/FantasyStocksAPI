@@ -1,6 +1,4 @@
-package com.jameswk2.FantasyStocksAPI.JsonResponses;
-
-import com.jameswk2.FantasyStocksAPI.FullUser;
+package com.jameswk2.FantasyStocksAPI;
 
 /**
  * This is just a data holder class for API responses involving authentication.
