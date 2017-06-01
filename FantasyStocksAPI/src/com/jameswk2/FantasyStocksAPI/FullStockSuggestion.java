@@ -1,10 +1,7 @@
 package com.jameswk2.FantasyStocksAPI;
 import java.util.Date;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
-public class FullStockSuggestion {
+class FullStockSuggestion {
     protected static final String MODEL_NAME = "stockSuggestion";
 
     protected int id;

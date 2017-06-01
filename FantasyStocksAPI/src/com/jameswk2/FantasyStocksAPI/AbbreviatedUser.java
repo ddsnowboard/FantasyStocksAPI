@@ -2,10 +2,7 @@ package com.jameswk2.FantasyStocksAPI;
 
 import java.util.Arrays;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
-public class AbbreviatedUser implements User {
+class AbbreviatedUser implements User {
 
     private String username;
     private int id;

@@ -2,10 +2,7 @@ package com.jameswk2.FantasyStocksAPI;
 
 import java.util.Date;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
-public class FullStock implements Stock {
+class FullStock implements Stock {
     protected static final String MODEL_NAME = "stock";
 
     private int id;

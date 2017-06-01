@@ -4,6 +4,9 @@ import java.util.Date;
 
 import static com.jameswk2.FantasyStocksAPI.FullStock.MODEL_NAME;
 
+/**
+ * This represents a single real-life stock symbol in the game.
+ */
 public interface Stock {
 
     /**

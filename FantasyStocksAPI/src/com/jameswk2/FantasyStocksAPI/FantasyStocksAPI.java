@@ -1,7 +1,6 @@
 package com.jameswk2.FantasyStocksAPI;
 
 import com.google.gson.*;
-import com.jameswk2.FantasyStocksAPI.JsonResponses.AuthResponse;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,7 +24,7 @@ public class FantasyStocksAPI {
 
     private String sessionId;
 
-    private FullUser user = null;
+    private User user = null;
 
     /**
      * @return the singleton instance of the {@link FantasyStocksAPI}
@@ -46,7 +45,7 @@ public class FantasyStocksAPI {
      * @return the {@link User} object that the client logged in as 
      * @throws RuntimeException if the client has not logged in yet
      */
-    public FullUser getUser() {
+    public User getUser() {
         if (user == null) {
             throw new RuntimeException("You need to log in or create a user first!");
         }

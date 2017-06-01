@@ -2,10 +2,7 @@ package com.jameswk2.FantasyStocksAPI;
 
 import java.util.Arrays;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
-public class AbbreviatedPlayer implements Player {
+class AbbreviatedPlayer implements Player {
     private int id;
     private int user;
     private int floor;
@@ -21,7 +18,7 @@ public class AbbreviatedPlayer implements Player {
         return id;
     }
 
-    public FullUser getUser() {
+    public User getUser() {
         return User.get(user);
     }
 

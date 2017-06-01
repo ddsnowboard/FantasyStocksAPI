@@ -2,10 +2,7 @@ package com.jameswk2.FantasyStocksAPI;
 
 import java.util.Arrays;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
-public class AbbreviatedFloor implements Floor {
+class AbbreviatedFloor implements Floor {
     private int id;
     private FullFloor.Permissiveness permissiveness;
     private boolean isPublic;

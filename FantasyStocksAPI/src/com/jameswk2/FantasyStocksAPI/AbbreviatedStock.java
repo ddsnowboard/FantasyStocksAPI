@@ -2,10 +2,7 @@ package com.jameswk2.FantasyStocksAPI;
 
 import java.util.Date;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
-public class AbbreviatedStock implements Stock {
+class AbbreviatedStock implements Stock {
     private int id;
     private String companyName;
     private String symbol;

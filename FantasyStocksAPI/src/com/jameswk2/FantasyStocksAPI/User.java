@@ -2,7 +2,10 @@ package com.jameswk2.FantasyStocksAPI;
 
 import static com.jameswk2.FantasyStocksAPI.FullUser.MODEL_NAME;
 
-
+/**
+ * This is tied to an individual human playing the game.
+ * It has many {@link Player}s tied to it, along with authentication information.
+ */
 public interface User {
     /**
      * @return the integer id of this user
@@ -24,7 +27,7 @@ public interface User {
      * @param id the id of the user to get
      * @return the User object with the given integer id
      */
-    static FullUser get(int id) {
+    static User get(int id) {
         return (FullUser) Model.getModel(id, MODEL_NAME, FullUser.class);
     }
 

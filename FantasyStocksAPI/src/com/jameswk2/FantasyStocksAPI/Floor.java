@@ -2,6 +2,11 @@ package com.jameswk2.FantasyStocksAPI;
 
 import static com.jameswk2.FantasyStocksAPI.FullFloor.MODEL_NAME;
 
+/**
+ * This represents a group of {@link Player} objects and {@link Stock}s.
+ * Each {@link Player} belongs to a single one of these, but a {@link Stock}
+ * can belong to multiple.
+ */
 public interface Floor {
 
     /**

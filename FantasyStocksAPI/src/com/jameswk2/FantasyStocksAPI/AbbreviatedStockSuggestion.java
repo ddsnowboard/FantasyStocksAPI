@@ -3,10 +3,7 @@ package com.jameswk2.FantasyStocksAPI;
 
 import java.util.Date;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
-public class AbbreviatedStockSuggestion implements StockSuggestion {
+class AbbreviatedStockSuggestion implements StockSuggestion {
     private int id;
     private int stock;
     private int requstingPlayer;

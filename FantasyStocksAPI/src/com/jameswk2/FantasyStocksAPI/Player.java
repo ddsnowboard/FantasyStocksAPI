@@ -9,6 +9,11 @@ import java.util.HashMap;
 
 import static com.jameswk2.FantasyStocksAPI.FullPlayer.MODEL_NAME;
 
+/**
+ * This is the manifestation of a {@link User} on a {@link Floor}.
+ * Each of these is tied to exactly one {@link User} and one {@link Floor},
+ * and owns some number of {@link Stock}s
+ */
 public interface Player {
     HashMap<Integer, Player> cache = new HashMap<>();
 

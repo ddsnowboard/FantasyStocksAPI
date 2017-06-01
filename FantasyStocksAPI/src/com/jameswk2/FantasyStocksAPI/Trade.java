@@ -11,6 +11,10 @@ import java.util.Date;
 
 import static com.jameswk2.FantasyStocksAPI.FullTrade.MODEL_NAME;
 
+/**
+ * This represents a desire by one {@link Player} to trade some {@link Stock}s with another on
+ * the same {@link Floor}.
+ */
 public interface Trade {
     /**
      * Creates a Trade, uploads it to the server, and returns it.
@@ -56,8 +60,8 @@ public interface Trade {
      * @param id the id of the desired Trade
      * @return the Trade specified by the given id
      */
-    static FullTrade get(int id) {
-        return (FullTrade) Model.getModel(id, MODEL_NAME, FullTrade.class);
+    static Trade get(int id) {
+        return (Trade) Model.getModel(id, MODEL_NAME, FullTrade.class);
     }
 
     /**

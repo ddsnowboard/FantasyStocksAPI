@@ -2,10 +2,7 @@ package com.jameswk2.FantasyStocksAPI;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by ddsnowboard on 4/16/17.
- */
-public class FullFloor implements Floor {
+class FullFloor implements Floor {
     protected static final String MODEL_NAME = "floor";
     public enum Permissiveness {
         @SerializedName("Permissive")
