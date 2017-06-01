@@ -2,9 +2,6 @@ package com.jameswk2.FantasyStocksAPI;
 
 import static com.jameswk2.FantasyStocksAPI.FullFloor.MODEL_NAME;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
 public interface Floor {
 
     /**
