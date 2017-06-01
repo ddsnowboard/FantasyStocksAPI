@@ -43,7 +43,7 @@ public class FantasyStocksAPI {
 
     /**
      * This returns the {@link User} that the client logged in with.
-     * @return the {@link User} object that the client logged in as. 
+     * @return the {@link User} object that the client logged in as 
      * @throws RuntimeException if the client has not logged in yet
      */
     public FullUser getUser() {

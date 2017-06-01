@@ -51,7 +51,7 @@ public interface Floor {
     boolean isPublic();
 
     /**
-     * @return the number of stocks available on this floor.
+     * @return the number of stocks available on this floor
      */
     int getNumStocks();
 
