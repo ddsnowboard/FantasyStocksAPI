@@ -44,7 +44,7 @@ public interface Trade {
         Gson gson = new Gson();
         try {
             URL url = new URL(FantasyStocksAPI.BASE_URL + MODEL_NAME + "/create/");
-            JsonObject jsonResponse = gson.fromJson(URLUtils.post(url, gson.toJson(jsonObj)), JsonObject.class);
+            JsonObject jsonResponse = gson.fromJson(URLBackend.post(url, gson.toJson(jsonObj)), JsonObject.class);
             System.out.println(jsonObj);
             System.out.println(jsonResponse);
             if(jsonResponse.has("error"))

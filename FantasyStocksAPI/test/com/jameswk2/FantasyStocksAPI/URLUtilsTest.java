@@ -15,7 +15,7 @@ class URLUtilsTest {
         URL url = new URL(URL_STRING);
         HashMap<String, String> qString = new HashMap<>();
         qString.put("Zilles", "Angrave");
-        assertEquals("{\"Zilles\": [\"Angrave\"]}", URLUtils.get(url, qString));
+        assertEquals("{\"Zilles\": [\"Angrave\"]}", URLBackend.get(url, qString));
     }
 
     @Test
@@ -25,6 +25,6 @@ class URLUtilsTest {
         URL url = new URL(URL_STRING);
         HashMap<String, String> qString = new HashMap<>();
         qString.put("Zilles", "Angrave");
-        assertEquals("{\"Zilles\": \"Angrave\"}", URLUtils.post(url, new HashMap<>(), "{\"Zilles\": \"Angrave\"}"));
+        assertEquals("{\"Zilles\": \"Angrave\"}", URLBackend.post(url, new HashMap<>(), "{\"Zilles\": \"Angrave\"}"));
     }
 }

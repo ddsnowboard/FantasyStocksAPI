@@ -1,6 +1,9 @@
 package com.jameswk2.FantasyStocksAPI;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -13,16 +16,16 @@ import java.util.Scanner;
  * code.
  * Created by ddsnowboard on 4/16/17.
  */
-class URLUtils {
-    /**
-     * Sends a GET request.
-     * @param url the URL to send the request to
-     * @param queryString a map of keys and values that will be converted into 
-     *                    an HTTP query string
-     * @return the response, as a string
-     */
-    public static String get(URL url, HashMap<String, String> queryString) {
-        String urlBase = url.toString();
+class URLBackend implements NetworkBackend {
+
+    private final URL baseUrl;
+
+    public URLBackend(URL baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public String get(String address, HashMap<String, String> queryString) {
+        String urlBase = baseUrl.toString() + address;
         String sessionId = FantasyStocksAPI.getInstance().getSessionId();
         if (sessionId != null)
             queryString.put("sessionId", sessionId);
@@ -38,27 +41,12 @@ class URLUtils {
         }
     }
 
-    /**
-     * Sends a GET request with an empty query string.
-     * @param url the URL to send the request to
-     * @return the response, as a string
-     */
-    public static String get(URL url) {
-        return get(url, new HashMap<>());
+    public String get(String address) {
+        return get(address, new HashMap<>());
     }
 
-
-    /**
-     * Sends a POST request.
-     * @param url the URL to send the request to
-     * @param queryString a map of keys and values that will be converted into 
-     *                    an HTTP query string
-     * @param jsonPostData the JSON data that will make up the body, 
-     *                     as a string
-     * @return the response, as a string
-     */
-    public static String post(URL url, HashMap<String, String> queryString, String jsonPostData) {
-        String urlBase = url.toString();
+    public String post(String address, HashMap<String, String> queryString, String jsonPostData) {
+        String urlBase = baseUrl.toString() + address;
         String sessionId = FantasyStocksAPI.getInstance().getSessionId();
 
         if (sessionId != null)
@@ -85,15 +73,8 @@ class URLUtils {
         }
     }
 
-    /**
-     * Sends a POST request with an empty query string.
-     * @param url the URL to send the request to
-     * @param jsonPostData the JSON data that will make up the body, 
-     *                     as a string
-     * @return the response, as a string
-     */
-    public static String post(URL url, String jsonPostData) {
-        return post(url, new HashMap<>(), jsonPostData);
+    public String post(String address, String jsonPostData) {
+        return post(address, new HashMap<>(), jsonPostData);
     }
 
     /**

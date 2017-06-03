@@ -27,17 +27,7 @@ public interface Player {
         JsonObject jsonObj = new JsonObject();
         jsonObj.addProperty("user", user.getId());
         jsonObj.addProperty("floor", floor.getId());
-        Gson gson = new Gson();
-        try {
-            URL url = new URL(FantasyStocksAPI.BASE_URL + FullPlayer.MODEL_NAME + "/create/");
-            JsonObject jsonResponse = gson.fromJson(URLUtils.post(url, gson.toJson(jsonObj)), JsonObject.class);
-            if(jsonResponse.has("error"))
-                throw new RuntimeException(jsonResponse.get("error").getAsString());
-
-            return gson.fromJson(jsonResponse, FullPlayer.class);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("There is an issue with the URL");
-        }
+        return (Player) FantasyStocksAPI.getInstance().createModel(FullPlayer.MODEL_NAME, jsonObj);
     }
 
     /**
@@ -45,7 +35,7 @@ public interface Player {
      */
     static Player get(int id) {
         if(!cache.containsKey(id))
-            cache.put(id, (Player) Model.getModel(id, MODEL_NAME, FullPlayer.class));
+            cache.put(id, (Player) FantasyStocksAPI.getInstance().getModel(id, MODEL_NAME, FullPlayer.class));
         return cache.get(id);
     }
 
@@ -53,7 +43,7 @@ public interface Player {
      * @return an array of all the Players in the database
      */
     static Player[] getPlayers() {
-        return (Player[]) Model.getModel(MODEL_NAME, FullPlayer.class);
+        return (Player[]) FantasyStocksAPI.getInstance().getModel(MODEL_NAME, FullPlayer.class);
     }
 
     /**

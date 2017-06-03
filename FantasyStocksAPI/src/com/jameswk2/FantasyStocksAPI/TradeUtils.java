@@ -14,6 +14,8 @@ import java.net.URL;
  * Created by ddsnowboard on 5/2/17.
  */
 public class TradeUtils {
+    **************
+    // I don't know what to do with this. I'll ponder it.
 
     /**
      * Accepts the given {@link Trade}
@@ -27,7 +29,7 @@ public class TradeUtils {
         catch (MalformedURLException e) {
             throw new RuntimeException("I wrote the URL wrong");
         }
-        String response = URLUtils.post(url, "");
+        String response = URLBackend.post(url, "");
         Gson gson = new Gson();
         JsonObject jsonObj = gson.fromJson(response, JsonObject.class);
         if(jsonObj.has("success"))
@@ -48,7 +50,7 @@ public class TradeUtils {
         catch (MalformedURLException e) {
             throw new RuntimeException("I wrote the URL wrong");
         }
-        String response = URLUtils.post(url, "");
+        String response = URLBackend.post(url, "");
         Gson gson = new Gson();
         JsonObject jsonObj = gson.fromJson(response, JsonObject.class);
         if(jsonObj.has("success"))
