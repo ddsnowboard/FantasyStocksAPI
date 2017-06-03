@@ -7,10 +7,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * This class contains some useful functions for 
+ * dealing with {@link Trade}s. Since {@link Trade} is just
+ * an interface, I can't actually implement these once in any 
+ * way other than this. So it goes.
  * Created by ddsnowboard on 5/2/17.
  */
 public class TradeUtils {
 
+    /**
+     * Accepts the given {@link Trade}
+     * @param t the {@link Trade} to accept
+     */
     protected static void acceptTrade(Trade t) {
         URL url;
         try {
@@ -28,6 +36,10 @@ public class TradeUtils {
             throw new RuntimeException(jsonObj.get("error").getAsString());
     }
 
+    /**
+     * Accepts the given {@link Trade}
+     * @param t the {@link Trade} to accept
+     */
     protected static void declineTrade(Trade t) {
         URL url;
         try {

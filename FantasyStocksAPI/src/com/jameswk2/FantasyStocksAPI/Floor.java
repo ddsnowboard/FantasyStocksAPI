@@ -3,7 +3,9 @@ package com.jameswk2.FantasyStocksAPI;
 import static com.jameswk2.FantasyStocksAPI.FullFloor.MODEL_NAME;
 
 /**
- * Created by ddsnowboard on 4/17/17.
+ * This represents a group of {@link Player} objects and {@link Stock}s.
+ * Each {@link Player} belongs to a single one of these, but a {@link Stock}
+ * can belong to multiple.
  */
 public interface Floor {
 
@@ -54,7 +56,7 @@ public interface Floor {
     boolean isPublic();
 
     /**
-     * @return the number of stocks available on this floor.
+     * @return the number of stocks available on this floor
      */
     int getNumStocks();
 

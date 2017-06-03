@@ -3,10 +3,7 @@ package com.jameswk2.FantasyStocksAPI;
 import java.util.Arrays;
 import java.util.Date;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
-public class AbbreviatedTrade implements Trade {
+class AbbreviatedTrade implements Trade {
     private int id;
     private int recipientPlayer;
     private int senderPlayer;

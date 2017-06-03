@@ -7,10 +7,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Created by ddsnowboard on 4/17/17.
- */
-public class APITests {
+class APITests {
     public static final String USERNAME = "testerMan";
     public static final String PASSWORD = "test123";
 
@@ -24,7 +21,7 @@ public class APITests {
     @Test
     public void getUser() {
         api.login(USERNAME, PASSWORD);
-        FullUser user = api.getUser();
+        User user = api.getUser();
         assertEquals(user.getUsername(), USERNAME);
     }
 

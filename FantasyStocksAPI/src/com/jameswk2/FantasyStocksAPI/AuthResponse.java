@@ -1,9 +1,7 @@
-package com.jameswk2.FantasyStocksAPI.JsonResponses;
-
-import com.jameswk2.FantasyStocksAPI.FullUser;
+package com.jameswk2.FantasyStocksAPI;
 
 /**
- * Created by ddsnowboard on 4/17/17.
+ * This is just a data holder class for API responses involving authentication.
  */
 public class AuthResponse {
     private String sessionId;
