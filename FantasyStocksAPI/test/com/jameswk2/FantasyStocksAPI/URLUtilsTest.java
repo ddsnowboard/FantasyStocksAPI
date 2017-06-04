@@ -1,30 +1,21 @@
 package com.jameswk2.FantasyStocksAPI;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
+import static junit.framework.TestCase.fail;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class URLUtilsTest {
     @Test
     void get() throws MalformedURLException {
-        // final String URL_STRING = "http://localhost:8000/api/v1/test/";
-        final String URL_STRING = FantasyStocksAPI.BASE_URL + "test/";
-        URL url = new URL(URL_STRING);
-        HashMap<String, String> qString = new HashMap<>();
-        qString.put("Zilles", "Angrave");
-        assertEquals("{\"Zilles\": [\"Angrave\"]}", URLBackend.get(url, qString));
+        // Put something in here
+        fail();
     }
 
     @Test
     void post() throws MalformedURLException {
-        // final String URL_STRING = "http://localhost:8000/api/v1/test/";
-        final String URL_STRING = FantasyStocksAPI.BASE_URL + "test/";
-        URL url = new URL(URL_STRING);
-        HashMap<String, String> qString = new HashMap<>();
-        qString.put("Zilles", "Angrave");
-        assertEquals("{\"Zilles\": \"Angrave\"}", URLBackend.post(url, new HashMap<>(), "{\"Zilles\": \"Angrave\"}"));
+        // Put something in here
+        fail();
     }
 }

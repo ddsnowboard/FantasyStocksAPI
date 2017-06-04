@@ -1,11 +1,15 @@
 package com.jameswk2.FantasyStocksAPI;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 class APITests {
     public static final String USERNAME = "testerMan";
@@ -13,7 +17,7 @@ class APITests {
 
     private static FantasyStocksAPI api;
 
-    @BeforeAll
+    @BeforeClass
     public static void setUp() {
         api = FantasyStocksAPI.getInstance();
     }
@@ -72,8 +76,7 @@ class APITests {
                     .anyMatch(p -> p.getUser().equals(myUser)));
             assertEquals(newPlayer.getUser(), myUser);
             assertEquals(newPlayer.getFloor(), randomFloor);
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println("You probably need to restart the server, if the error is that the model already exists");
             throw e;
         }
@@ -92,8 +95,7 @@ class APITests {
         Player sender;
         try {
             sender = Player.create(api.getUser(), randomFloor);
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             sender = Arrays.stream(Player.getPlayers())
                     .filter(p -> p.getUser().equals(api.getUser()))
                     .findFirst()

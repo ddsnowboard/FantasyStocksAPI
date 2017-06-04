@@ -1,10 +1,7 @@
 package com.jameswk2.FantasyStocksAPI;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 
 import static com.jameswk2.FantasyStocksAPI.FullPlayer.MODEL_NAME;
@@ -19,7 +16,8 @@ public interface Player {
 
     /**
      * Creates a new Player based on the given parameters
-     * @param user the {@link User} object that owns the created Player
+     *
+     * @param user  the {@link User} object that owns the created Player
      * @param floor the {@link Floor} object on which the created Player exists
      * @return the created Player
      */
@@ -34,7 +32,7 @@ public interface Player {
      * @param id the id of the desired Player
      */
     static Player get(int id) {
-        if(!cache.containsKey(id))
+        if (!cache.containsKey(id))
             cache.put(id, (Player) FantasyStocksAPI.getInstance().getModel(id, MODEL_NAME, FullPlayer.class));
         return cache.get(id);
     }

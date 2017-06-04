@@ -9,6 +9,10 @@ import java.util.Date;
  * suggestion.
  */
 public interface StockSuggestion {
+    static StockSuggestion get(int id) {
+        return (StockSuggestion) FantasyStocksAPI.getInstance().getModel(id, FullStockSuggestion.MODEL_NAME, FullStockSuggestion.class);
+    }
+
     /**
      * @return the integer id of this object
      */

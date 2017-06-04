@@ -28,13 +28,13 @@ public interface User {
      * @return the User object with the given integer id
      */
     static User get(int id) {
-        return (FullUser) Model.getModel(id, MODEL_NAME, FullUser.class);
+        return (FullUser) FantasyStocksAPI.getInstance().getModel(id, MODEL_NAME, FullUser.class);
     }
 
     /**
      * @return all the Users in the databse
      */
     static User[] getUsers() {
-        return (User[]) Model.getModel(MODEL_NAME, FullUser.class);
+        return (User[]) FantasyStocksAPI.getInstance().getModel(MODEL_NAME, FullUser.class);
     }
 }

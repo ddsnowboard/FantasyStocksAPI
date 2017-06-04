@@ -40,17 +40,13 @@ class FullTrade implements Trade {
         return date;
     }
 
-    public static FullTrade get(int id) {
-        return (FullTrade) Model.getModel(id, MODEL_NAME, FullUser.class);
-    }
-
     @Override
     public void accept() {
-        TradeUtils.acceptTrade(this);
+        FantasyStocksAPI.getInstance().acceptTrade(this);
     }
 
     @Override
     public void decline() {
-        TradeUtils.declineTrade(this);
+        FantasyStocksAPI.getInstance().declineTrade(this);
     }
 }

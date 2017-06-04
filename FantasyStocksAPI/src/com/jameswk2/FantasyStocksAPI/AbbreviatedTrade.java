@@ -49,11 +49,11 @@ class AbbreviatedTrade implements Trade {
 
     @Override
     public void accept() {
-        TradeUtils.acceptTrade(this);
+        FantasyStocksAPI.getInstance().acceptTrade(this);
     }
 
     @Override
     public void decline() {
-        TradeUtils.declineTrade(this);
+        FantasyStocksAPI.getInstance().declineTrade(this);
     }
 }

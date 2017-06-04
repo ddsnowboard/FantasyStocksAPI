@@ -1,7 +1,7 @@
 package com.jameswk2.FantasyStocksAPI;
 import java.util.Date;
 
-class FullStockSuggestion {
+class FullStockSuggestion implements StockSuggestion {
     protected static final String MODEL_NAME = "stockSuggestion";
 
     protected int id;
@@ -10,9 +10,6 @@ class FullStockSuggestion {
     private Floor floor;
     protected Date date;
 
-    public static FullStockSuggestion get(int id) {
-        return (FullStockSuggestion) Model.getModel(id, MODEL_NAME, FullStockSuggestion.class);
-    }
 
     public int getId() {
         return id;

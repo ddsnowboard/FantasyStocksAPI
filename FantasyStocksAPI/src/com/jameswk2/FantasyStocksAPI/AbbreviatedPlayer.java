@@ -27,7 +27,7 @@ class AbbreviatedPlayer implements Player {
     }
 
     public Stock[] getStocks() {
-        return Arrays.stream(stocks).mapToObj(i -> Stock.get(i)).toArray(i -> new Stock[i]);
+        return Arrays.stream(stocks).mapToObj(Stock::get).toArray(i -> new Stock[i]);
     }
 
     @Override
@@ -40,12 +40,12 @@ class AbbreviatedPlayer implements Player {
         return isFloor;
     }
 
-    public FullTrade[] getSentTrades() {
-        return Arrays.stream(sentTrades).mapToObj(i -> FullTrade.get(i)).toArray(i -> new FullTrade[i]);
+    public Trade[] getSentTrades() {
+        return Arrays.stream(sentTrades).mapToObj(Trade::get).toArray(i -> new Trade[i]);
     }
 
-    public FullTrade[] getReceivedTrades() {
-        return Arrays.stream(receivedTrades).mapToObj(i -> FullTrade.get(i)).toArray(i -> new FullTrade[i]);
+    public Trade[] getReceivedTrades() {
+        return Arrays.stream(receivedTrades).mapToObj(Trade::get).toArray(i -> new Trade[i]);
     }
 
     @Override

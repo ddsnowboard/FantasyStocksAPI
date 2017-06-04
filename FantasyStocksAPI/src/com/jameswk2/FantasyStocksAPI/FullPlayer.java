@@ -51,12 +51,12 @@ class FullPlayer implements Player {
 
     public static Player get(int id) {
         if(!cache.containsKey(id))
-            cache.put(id, (FullPlayer) Model.getModel(id, MODEL_NAME, FullPlayer.class));
+            cache.put(id, (FullPlayer) FantasyStocksAPI.getInstance().getModel(id, MODEL_NAME, FullPlayer.class));
         return cache.get(id);
     }
 
     public static FullPlayer[] getPlayers() {
-        return (FullPlayer[]) Model.getModel(MODEL_NAME, FullPlayer.class);
+        return (FullPlayer[]) FantasyStocksAPI.getInstance().getModel(MODEL_NAME, FullPlayer.class);
     }
 
     @Override

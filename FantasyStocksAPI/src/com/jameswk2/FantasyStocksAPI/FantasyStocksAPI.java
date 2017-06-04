@@ -218,4 +218,34 @@ public class FantasyStocksAPI {
 
         return gson.fromJson(jsonResponse, JsonObject.class);
     }
+
+    /**
+     * Accepts the given {@link Trade}
+     * @param t the {@link Trade} to accept
+     */
+    void acceptTrade(Trade t) {
+        final String endpoint = FullTrade.MODEL_NAME + "/accept/";
+        String response = backend.post(endpoint, "");
+        Gson gson = new Gson();
+        JsonObject jsonObj = gson.fromJson(response, JsonObject.class);
+        if(jsonObj.has("success"))
+            return;
+        else
+            throw new RuntimeException(jsonObj.get("error").getAsString());
+    }
+
+    /**
+     * Accepts the given {@link Trade}
+     * @param t the {@link Trade} to accept
+     */
+    protected void declineTrade(Trade t) {
+        final String endpoint = FullTrade.MODEL_NAME + "/accept/";
+        String response = backend.post(endpoint, "");
+        Gson gson = new Gson();
+        JsonObject jsonObj = gson.fromJson(response, JsonObject.class);
+        if(jsonObj.has("success"))
+            return;
+        else
+            throw new RuntimeException(jsonObj.get("error").getAsString());
+    }
 }

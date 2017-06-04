@@ -41,19 +41,7 @@ public interface Trade {
         jsonObj.add("recipientStocks", recipientStockIds);
 
         jsonObj.addProperty("floor", floor.getId());
-        Gson gson = new Gson();
-        try {
-            URL url = new URL(FantasyStocksAPI.BASE_URL + MODEL_NAME + "/create/");
-            JsonObject jsonResponse = gson.fromJson(URLBackend.post(url, gson.toJson(jsonObj)), JsonObject.class);
-            System.out.println(jsonObj);
-            System.out.println(jsonResponse);
-            if(jsonResponse.has("error"))
-                throw new RuntimeException(jsonResponse.get("error").getAsString());
-
-            return gson.fromJson(jsonResponse, FullTrade.class);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("There is an issue with the URL");
-        }
+        return (Trade) FantasyStocksAPI.getInstance().createModel(FullTrade.MODEL_NAME, jsonObj);
     }
 
     /**
@@ -61,7 +49,7 @@ public interface Trade {
      * @return the Trade specified by the given id
      */
     static Trade get(int id) {
-        return (Trade) Model.getModel(id, MODEL_NAME, FullTrade.class);
+        return (Trade) FantasyStocksAPI.getInstance().getModel(id, MODEL_NAME, FullTrade.class);
     }
 
     /**
@@ -69,8 +57,8 @@ public interface Trade {
      * those in which he involved or that are taking place on a Floor he owns.
      * @return all the Trades the user has access to
      */
-    static FullTrade[] getTrades() {
-        return (FullTrade[]) Model.getModel(MODEL_NAME, FullTrade.class);
+    static Trade[] getTrades() {
+        return (Trade[]) FantasyStocksAPI.getInstance().getModel(MODEL_NAME, FullTrade.class);
     }
 
     /**

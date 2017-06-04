@@ -14,14 +14,14 @@ public interface Stock {
      * @param id the id of the desired Stock object
      */
     static Stock get(int id) {
-        return (Stock) Model.getModel(id, MODEL_NAME, FullStock.class);
+        return (Stock) FantasyStocksAPI.getInstance().getModel(id, MODEL_NAME, FullStock.class);
     }
 
     /**
      * @return all the Stock objects in the databse
      */
     static Stock[] getStocks() {
-        return (Stock[]) Model.getModel(MODEL_NAME, FullStock.class);
+        return (Stock[]) FantasyStocksAPI.getInstance().getModel(MODEL_NAME, FullStock.class);
     }
 
     /**
