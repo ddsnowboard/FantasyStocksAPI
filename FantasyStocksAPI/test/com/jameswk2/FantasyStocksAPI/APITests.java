@@ -12,8 +12,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 class APITests {
-    public static final String USERNAME = "testerMan";
-    public static final String PASSWORD = "test123";
+    private static final String USERNAME = "testerMan";
+    private static final String PASSWORD = "test123";
 
     private static FantasyStocksAPI api;
 
