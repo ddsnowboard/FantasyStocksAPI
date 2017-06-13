@@ -176,7 +176,7 @@ public class FantasyStocksAPI {
     /**
      * @param modelName  the name of the model class. Each full model class
      *                   has a MODEL_NAME constant variable that contains the
-     *                   peoper model name. You <i>must</i> use this.
+     *                   proper model name. You <i>must</i> use this.
      * @param modelClass the class of the model that you want to be returned.
      *                   Usually the full version of the model.
      * @return all the objects in the database that the logged in user
@@ -205,7 +205,7 @@ public class FantasyStocksAPI {
      *
      * @param modelName       the name of the model class. Each full model class
      *                        has a MODEL_NAME constant variable that contains the
-     *                        peoper model name. You <i>must</i> use this.
+     *                        proper model name. You <i>must</i> use this.
      * @param modelAttributes the attributes of the model to be created
      * @return the created model. Must be cast to the type you want
      */

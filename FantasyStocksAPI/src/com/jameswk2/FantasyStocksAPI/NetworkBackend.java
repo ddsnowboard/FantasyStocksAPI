@@ -1,7 +1,6 @@
 package com.jameswk2.FantasyStocksAPI;
 
-import java.net.URL;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is the interface used for interacting with the network.
@@ -13,17 +12,17 @@ public interface NetworkBackend {
     /**
      * Sends a GET request.
      *
-     * @param address     the address within after the TLD (eg, www.reddit.com<em>/r/programming</em>)
+     * @param address     the address after the TLD (eg, www.reddit.com<em>/r/programming</em>)
      * @param queryString a map of keys and values that will be converted into
      *                    an HTTP query string
      * @return the response, as a string
      */
-    String get(String address, HashMap<String, String> queryString);
+    String get(String address, Map<String, String> queryString);
 
     /**
      * Sends a GET request with an empty query string.
      *
-     * @param address the address within after the TLD (eg, www.reddit.com<em>/r/programming</em>)
+     * @param address the address after the TLD (eg, www.reddit.com<em>/r/programming</em>)
      * @return the response, as a string
      */
     String get(String address);
@@ -32,19 +31,19 @@ public interface NetworkBackend {
     /**
      * Sends a POST request.
      *
-     * @param address the address within after the TLD (eg, www.reddit.com<em>/r/programming</em>)
+     * @param address the address after the TLD (eg, www.reddit.com<em>/r/programming</em>)
      * @param queryString  a map of keys and values that will be converted into
      *                     an HTTP query string
      * @param jsonPostData the JSON data that will make up the body,
      *                     as a string
      * @return the response, as a string
      */
-    String post(String address, HashMap<String, String> queryString, String jsonPostData);
+    String post(String address, Map<String, String> queryString, String jsonPostData);
 
     /**
      * Sends a POST request with an empty query string.
      *
-     * @param address the address within after the TLD (eg, www.reddit.com<em>/r/programming</em>)
+     * @param address the address after the TLD (eg, www.reddit.com<em>/r/programming</em>)
      * @param jsonPostData the JSON data that will make up the body,
      *                     as a string
      * @return the response, as a string
