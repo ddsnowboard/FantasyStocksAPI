@@ -11,15 +11,17 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-class APITests {
+public class APITests {
     private static final String USERNAME = "testerMan";
     private static final String PASSWORD = "test123";
 
     private static FantasyStocksAPI api;
+    private static QueueBackend backend;
 
-    @BeforeClass
+    @Before
     public static void setUp() {
-        api = FantasyStocksAPI.getInstance();
+        backend = new QueueBackend();
+        api = new FantasyStocksAPI(backend);
     }
 
     @Test

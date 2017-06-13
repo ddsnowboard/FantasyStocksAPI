@@ -9,12 +9,12 @@ import java.util.Map;
  * This is a mock network backend
  * Created by ddsnowboard on 6/4/17.
  */
-public class FakeNetworkBackend implements NetworkBackend {
+public class QueueBackend implements NetworkBackend {
     private Map<String, JsonObject> getOutputs = new HashMap<>();
     private Map<String, JsonObject> postOutputs = new HashMap<>();
 
     @Override
-    public String get(String address, HashMap<String, String> queryString) {
+    public String get(String address, Map<String, String> queryString) {
         return null;
     }
 
@@ -24,7 +24,7 @@ public class FakeNetworkBackend implements NetworkBackend {
     }
 
     @Override
-    public String post(String address, HashMap<String, String> queryString, String jsonPostData) {
+    public String post(String address, Map<String, String> queryString, String jsonPostData) {
         return null;
     }
 
