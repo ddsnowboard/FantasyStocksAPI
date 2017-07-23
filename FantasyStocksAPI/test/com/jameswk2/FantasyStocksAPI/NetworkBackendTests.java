@@ -37,7 +37,8 @@ public class NetworkBackendTests {
     public void easyGet() {
         String out = backend.get(TESTING_ENDPOINT);
         JsonObject outObj = gson.fromJson(out, JsonObject.class);
-        assertEquals(0, outObj.size());
+        JsonObject expected = getExpected(new HashMap<>(), new HashMap<>());
+        assertEquals(expected, outObj);
     }
 
     @Test
