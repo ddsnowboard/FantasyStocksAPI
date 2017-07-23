@@ -17,10 +17,10 @@ import static org.junit.Assert.assertEquals;
 
 
 public class NetworkBackendTests {
-    // private static final String TESTING_URL = "http://fantasystocks.herokuapp.com/api/v1/";
-    private static final String TESTING_URL = "http://127.0.0.1:8000/api/v1/";
+    private static final String TESTING_URL = "http://fantasystocks.herokuapp.com/api/v1/";
+    // private static final String TESTING_URL = "http://127.0.0.1:8000/api/v1/";
     private static final String TESTING_ENDPOINT = "test";
-    private static NetworkBackend backend;
+    private static URLBackend backend;
     private static Gson gson;
 
     @BeforeClass
@@ -46,21 +46,42 @@ public class NetworkBackendTests {
         queryString.put("Ham", "eggs");
         queryString.put("pork", "beans");
 
+        JsonObject expected = getExpected(queryString, new HashMap<>());
+
         String out = backend.get(TESTING_ENDPOINT, queryString);
         JsonObject outObj = gson.fromJson(out, JsonObject.class);
         assertEquals(2, outObj.size());
-        for (Map.Entry<String, String> e : queryString.entrySet())
-            assertEquals(outObj.get(e.getKey()).getAsString(), e.getValue());
+        assertEquals(expected, outObj);
     }
 
     @Test
     public void easyPost() {
-        JsonObject jsonObj = new JsonObject();
-        jsonObj.add("apples", new JsonPrimitive("bananas"));
-        jsonObj.add("bears", new JsonPrimitive("orcs"));
+        Map<String, String> map = new HashMap<>();
+        map.put("apples", "bananas");
+        map.put("bears", "orcs");
+        JsonObject jsonObj = mapToJsonObject(map);
         String out = backend.post(TESTING_ENDPOINT, gson.toJson(jsonObj));
         JsonObject retObj = gson.fromJson(out, JsonObject.class);
-        assertEquals(retObj, jsonObj);
+        assertEquals(retObj, getExpected(new HashMap<>(), map));
+    }
+
+    private JsonObject getExpected(Map<String, String> get, Map<String, String> post) {
+        JsonObject ret = new JsonObject();
+
+        JsonObject getObject = mapToJsonObject(get);
+
+        JsonObject postObject = mapToJsonObject(post);
+        ret.add("get", getObject);
+        ret.add("post", postObject);
+        return ret;
+    }
+
+    private JsonObject mapToJsonObject(Map<String, String> m) {
+        JsonObject ret = new JsonObject();
+        for(Map.Entry<String, String> e : m.entrySet()) {
+            ret.add(e.getKey(), new JsonPrimitive(e.getValue()));
+        }
+        return ret;
     }
 
     // I need to add a test that does both a POST body and querystring, but I need to change the server code for that.
