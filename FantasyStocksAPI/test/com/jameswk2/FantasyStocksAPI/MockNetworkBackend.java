@@ -1,8 +1,10 @@
 package com.jameswk2.FantasyStocksAPI;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
@@ -13,35 +15,53 @@ import java.util.List;
 public class MockNetworkBackend implements NetworkBackend {
     private List<GetRequest> getOutputs = new ArrayList<>();
     private List<PostRequest> postOutputs = new ArrayList<>();
+    private Gson gson = new Gson();
 
     @Override
     public String get(String address, Map<String, String> queryString) {
-        return null;
+        GetRequest request = getOutputs.stream()
+                .filter(r -> r.address.equals(address) && r.queryString.equals(queryString))
+                .findFirst()
+                .get();
+        getOutputs.remove(request);
+        return gson.toJson(request.response);
     }
 
     @Override
     public String get(String address) {
-        return null;
+        return get(address, new HashMap<>());
     }
 
     @Override
     public String post(String address, Map<String, String> queryString, String jsonPostData) {
-        return null;
+        PostRequest request = postOutputs.stream()
+                .filter(o -> o.address.equals(address) && gson.fromJson(jsonPostData, JsonObject.class).equals(o.postData) && o.queryString.equals(queryString))
+                .findFirst()
+                .get();
+        postOutputs.remove(request);
+        return gson.toJson(request.response);
     }
 
     @Override
     public String post(String address, String jsonPostData) {
-        return null;
+        return post(address, new HashMap<>(), jsonPostData);
     }
 
-    public void expectPost(String address, String queryString, JsonObject jsonObj, JsonObject response) {
+    public void expectPost(String address, Map<String, String> queryString, JsonObject jsonObj, JsonObject response) {
         PostRequest request = new PostRequest(address, jsonObj, queryString, response);
         postOutputs.add(request);
     }
 
-    public void expectGet(String address, String queryString, JsonObject response) {
+    public void expectGet(String address, Map<String, String> queryString, JsonObject response) {
         GetRequest request = new GetRequest(address, queryString, response);
         getOutputs.add(request);
+    }
+
+    public void validateExpectations() {
+        if(getOutputs.size() != 0)
+            throw new RuntimeException("All the specified GETs weren't called");
+        else if(postOutputs.size() != 0)
+            throw new RuntimeException("All the specified POSTs weren't called");
     }
 
 
@@ -51,10 +71,10 @@ public class MockNetworkBackend implements NetworkBackend {
     private static class PostRequest {
         String address;
         JsonObject postData;
-        String queryString;
+        Map<String, String> queryString;
         JsonObject response;
 
-        public PostRequest(String address, JsonObject postData, String queryString, JsonObject response) {
+        public PostRequest(String address, JsonObject postData, Map<String, String> queryString, JsonObject response) {
             this.address = address;
             this.postData = postData;
             this.queryString = queryString;
@@ -64,10 +84,10 @@ public class MockNetworkBackend implements NetworkBackend {
 
     private static class GetRequest {
         String address;
-        String queryString;
+        Map<String, String> queryString;
         JsonObject response;
 
-        public GetRequest(String address, String queryString, JsonObject response) {
+        public GetRequest(String address, Map<String, String> queryString, JsonObject response) {
             this.address = address;
             this.queryString = queryString;
             this.response = response;

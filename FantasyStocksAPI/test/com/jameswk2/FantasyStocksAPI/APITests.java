@@ -1,10 +1,15 @@
 package com.jameswk2.FantasyStocksAPI;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
+import static com.jameswk2.FantasyStocksAPI.FantasyStocksAPI.gson;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertArrayEquals;
@@ -12,27 +17,43 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class APITests {
+    private static final int USER_ID = 32;
     private static final String USERNAME = "testerMan";
     private static final String PASSWORD = "test123";
 
-    private static FantasyStocksAPI api;
-    private static MockNetworkBackend backend;
+    private FantasyStocksAPI api;
+    private MockNetworkBackend backend;
 
     @Before
-    public static void setUp() {
+    public void setUp() {
         backend = new MockNetworkBackend();
         api = new FantasyStocksAPI(backend);
     }
 
     @Test
-    public void getUser() {
+    public void loginTest() {
+        final String SESSION_ID = "aslkdfjiooasidfj4365936";
+        JsonObject postData = new JsonObject();
+        postData.add("username", new JsonPrimitive(USERNAME));
+        postData.add("password", new JsonPrimitive(PASSWORD));
+        JsonObject responseObject = new JsonObject();
+        responseObject.add("sessionId", new JsonPrimitive(SESSION_ID));
+        backend.expectPost("auth/getKey/", new HashMap<>(), postData, responseObject);
         api.login(USERNAME, PASSWORD);
+        backend.validateExpectations();
+    }
+
+    @Test
+    public void getUser() {
+        login();
         User user = api.getUser();
         assertEquals(user.getUsername(), USERNAME);
     }
 
     @Test
     public void readFloors() {
+        // I'm going to need to do some serious upgrades to my login method to make this work. *sigh*
+        Assert.fail();
         api.login(USERNAME, PASSWORD);
 
         Floor[] floors = Arrays.stream(api.getUser().getPlayers())
@@ -132,6 +153,25 @@ public class APITests {
         final String THIS_IS_A_FAKE_ID = "salkdfjldksajfsaldkjfoiuoiuoiuwoqeiruqwoeirua,smdnc";
         FantasyStocksAPI.getInstance().registerFirebaseId(THIS_IS_A_FAKE_ID);
         System.out.println("GO CHECK THAT THIS RANDOM ID GOT ADDED");
+    }
+
+    private void login() {
+        final String SESSION_ID = "aslkdfjiooasidfj4365936";
+        JsonObject postData = new JsonObject();
+        postData.add("username", new JsonPrimitive(USERNAME));
+        postData.add("password", new JsonPrimitive(PASSWORD));
+        JsonObject responseObject = new JsonObject();
+        responseObject.add("sessionId", new JsonPrimitive(SESSION_ID));
+        FullUser user = new FullUser();
+        user.setId(USER_ID);
+        user.setUsername(USERNAME);
+        responseObject.add("user", toJsonObject(user));
+        backend.expectPost("auth/getKey/", new HashMap<>(), postData, responseObject);
+        api.login(USERNAME, PASSWORD);
+    }
+
+    private JsonObject toJsonObject(Object o) {
+        return gson.fromJson(gson.toJson(o), JsonObject.class);
     }
 
 }

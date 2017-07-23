@@ -22,10 +22,20 @@ class FullUser implements User {
         return Arrays.stream(Player.getPlayers()).filter(p -> p.getUser().equals(this)).toArray(i -> new Player[i]);
     }
 
+    void setPlayers(AbbreviatedPlayer[] players) {
+        this.players = players;
+    }
+
+    void setUsername(String username) {
+        this.username = username;
+    }
+
+    void setId(int id) {
+        this.id = id;
+    }
+
     public boolean equals(Object o) {
-        if(!(o instanceof User))
-            return false;
-        return getId() == ((User)o).getId();
+        return o instanceof User && getId() == ((User) o).getId();
     }
 
     public String toString() {
