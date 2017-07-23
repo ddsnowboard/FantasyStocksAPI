@@ -16,11 +16,11 @@ public class APITests {
     private static final String PASSWORD = "test123";
 
     private static FantasyStocksAPI api;
-    private static QueueBackend backend;
+    private static MockNetworkBackend backend;
 
     @Before
     public static void setUp() {
-        backend = new QueueBackend();
+        backend = new MockNetworkBackend();
         api = new FantasyStocksAPI(backend);
     }
 
