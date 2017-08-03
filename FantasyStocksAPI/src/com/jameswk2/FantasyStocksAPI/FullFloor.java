@@ -53,6 +53,30 @@ class FullFloor implements Floor {
         return numStocks;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStocks(AbbreviatedStock[] stocks) {
+        this.stocks = stocks;
+    }
+
+    public void setPermissiveness(Permissiveness permissiveness) {
+        this.permissiveness = permissiveness;
+    }
+
+    public void setOwner(AbbreviatedUser owner) {
+        this.owner = owner;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
     public boolean equals(Object o) {
         if(o instanceof Floor)
             return ((Floor) o).getId() == getId();
