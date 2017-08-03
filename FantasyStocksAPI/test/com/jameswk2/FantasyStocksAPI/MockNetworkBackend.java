@@ -23,7 +23,10 @@ public class MockNetworkBackend implements NetworkBackend {
                 .filter(r -> r.address.equals(address) && r.queryString.equals(queryString))
                 .findFirst()
                 .get();
-        getOutputs.remove(request);
+        if(request.getRepeat() == 1)
+            getOutputs.remove(request);
+        else
+            request.setRepeat(request.getRepeat() - 1);
         return gson.toJson(request.response);
     }
 
@@ -38,7 +41,10 @@ public class MockNetworkBackend implements NetworkBackend {
                 .filter(o -> o.address.equals(address) && gson.fromJson(jsonPostData, JsonObject.class).equals(o.postData) && o.queryString.equals(queryString))
                 .findFirst()
                 .get();
-        postOutputs.remove(request);
+        if(request.getRepeat() == 1)
+            postOutputs.remove(request);
+        else
+            request.setRepeat(request.getRepeat() - 1);
         return gson.toJson(request.response);
     }
 
@@ -47,51 +53,69 @@ public class MockNetworkBackend implements NetworkBackend {
         return post(address, new HashMap<>(), jsonPostData);
     }
 
-    public void expectPost(String address, Map<String, String> queryString, JsonObject jsonObj, JsonObject response) {
+    public PostRequest expectPost(String address, Map<String, String> queryString, JsonObject jsonObj, JsonObject response) {
         PostRequest request = new PostRequest(address, jsonObj, queryString, response);
         postOutputs.add(request);
+        return request;
     }
 
-    public void expectGet(String address, Map<String, String> queryString, JsonObject response) {
+    public GetRequest expectGet(String address, Map<String, String> queryString, JsonObject response) {
         GetRequest request = new GetRequest(address, queryString, response);
         getOutputs.add(request);
+        return request;
     }
 
     public void validateExpectations() {
-        if(getOutputs.size() != 0)
+        if (getOutputs.stream().filter(o -> o.getRepeat() > 0).count() != 0)
             throw new RuntimeException("All the specified GETs weren't called");
-        else if(postOutputs.size() != 0)
+        else if (postOutputs.stream().filter(o -> o.getRepeat() > 0).count() != 0)
             throw new RuntimeException("All the specified POSTs weren't called");
     }
 
 
-
-
-
-    private static class PostRequest {
+    static abstract class ExpectedRequest {
         String address;
-        JsonObject postData;
         Map<String, String> queryString;
         JsonObject response;
 
-        public PostRequest(String address, JsonObject postData, Map<String, String> queryString, JsonObject response) {
+        private int repeat = 1;
+
+        public ExpectedRequest(String address, Map<String, String> queryString, JsonObject response) {
             this.address = address;
-            this.postData = postData;
             this.queryString = queryString;
             this.response = response;
+        }
+
+        public void setRepeat(boolean repeat) {
+            if(repeat)
+                this.repeat = -1;
+            else
+                this.repeat = 1;
+        }
+
+        public void setRepeat(int repeat) {
+            this.repeat = repeat;
+        }
+
+        public int getRepeat() {
+            return this.repeat;
         }
     }
 
-    private static class GetRequest {
-        String address;
-        Map<String, String> queryString;
-        JsonObject response;
+    static class PostRequest extends ExpectedRequest {
+        JsonObject postData;
 
-        public GetRequest(String address, Map<String, String> queryString, JsonObject response) {
-            this.address = address;
-            this.queryString = queryString;
-            this.response = response;
+        public PostRequest(String address, JsonObject postData, Map<String, String> queryString, JsonObject response) {
+            super(address, queryString, response);
+            this.postData = postData;
         }
+    }
+
+    static class GetRequest extends ExpectedRequest {
+        public GetRequest(String address, Map<String, String> queryString, JsonObject response) {
+            super(address, queryString, response);
+        }
+
     }
 }
 
