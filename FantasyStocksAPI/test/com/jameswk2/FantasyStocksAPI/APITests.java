@@ -24,10 +24,21 @@ public class APITests {
     private FantasyStocksAPI api;
     private MockNetworkBackend backend;
 
+    private Floor[] floors;
+
     @Before
     public void setUp() {
         backend = new MockNetworkBackend();
         api = new FantasyStocksAPI(backend);
+        final int NUM_OF_FLOORS = 3;
+        floors = new Floor[NUM_OF_FLOORS];
+        for(int i = 0; i < NUM_OF_FLOORS; i++) {
+            FullFloor next = new FullFloor();
+            floors[i] = next;
+            next.setId(i);
+            next.setName(String.format("%dth floor", i));
+            // Finish making some fake floors to make readFloors() work
+        }
     }
 
     @Test
@@ -39,7 +50,9 @@ public class APITests {
         JsonObject responseObject = new JsonObject();
         responseObject.add("sessionId", new JsonPrimitive(SESSION_ID));
         backend.expectPost("auth/getKey/", new HashMap<>(), postData, responseObject);
+
         api.login(USERNAME, PASSWORD);
+
         backend.validateExpectations();
     }
 
@@ -47,6 +60,7 @@ public class APITests {
     public void getUser() {
         login();
         User user = api.getUser();
+        // I don't understand where this is getting its username. So that's good.
         assertEquals(user.getUsername(), USERNAME);
     }
 
@@ -145,7 +159,7 @@ public class APITests {
         User ret = api.register(USERNAME, PASSWORD);
         assertEquals(ret.getUsername(), USERNAME);
         assertNotNull(api.getSessionId());
-        assertTrue(Arrays.stream(User.getUsers()).filter(u -> u.getUsername().equals(USERNAME)).findFirst().isPresent());
+        assertTrue(Arrays.stream(User.getUsers()).anyMatch(u -> u.getUsername().equals(USERNAME)));
     }
 
     @Test
@@ -166,7 +180,10 @@ public class APITests {
         user.setId(USER_ID);
         user.setUsername(USERNAME);
         responseObject.add("user", toJsonObject(user));
-        backend.expectPost("auth/getKey/", new HashMap<>(), postData, responseObject);
+        backend.expectPost("auth/getKey/", new HashMap<>(), postData, responseObject).setRepeat(true);
+
+
+
         api.login(USERNAME, PASSWORD);
     }
 
