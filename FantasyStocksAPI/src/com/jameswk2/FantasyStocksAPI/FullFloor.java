@@ -78,9 +78,6 @@ class FullFloor implements Floor {
     }
 
     public boolean equals(Object o) {
-        if(o instanceof Floor)
-            return ((Floor) o).getId() == getId();
-        else
-            return false;
+        return o instanceof Floor && ((Floor) o).getId() == getId();
     }
 }

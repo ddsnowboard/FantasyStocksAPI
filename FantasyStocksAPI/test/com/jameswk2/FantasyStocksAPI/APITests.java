@@ -28,15 +28,16 @@ public class APITests {
 
     @Before
     public void setUp() {
+        final int NUM_OF_FLOORS = 3;
         backend = new MockNetworkBackend();
         api = new FantasyStocksAPI(backend);
-        final int NUM_OF_FLOORS = 3;
         floors = new Floor[NUM_OF_FLOORS];
         for(int i = 0; i < NUM_OF_FLOORS; i++) {
             FullFloor next = new FullFloor();
             floors[i] = next;
             next.setId(i);
-            next.setName(String.format("%dth floor", i));
+            next.setName(String.format("%th floor", i));
+            FullPlayer usersPlayer = new FullPlayer();
             // Finish making some fake floors to make readFloors() work
         }
     }
@@ -66,19 +67,20 @@ public class APITests {
 
     @Test
     public void readFloors() {
-        // I'm going to need to do some serious upgrades to my login method to make this work. *sigh*
+        // I'm going to need to do some serious upgrades to my setup method to make this work. *sigh*
         Assert.fail();
         api.login(USERNAME, PASSWORD);
 
         Floor[] floors = Arrays.stream(api.getUser().getPlayers())
-                .map(x -> x.getFloor()).toArray(i -> new Floor[i]);
-        for (FullPlayer p : Arrays.stream(FullPlayer.getPlayers()).filter(p -> p.getUser().equals(api.getUser())).toArray(i -> new FullPlayer[i])) {
-            assertTrue(Arrays.stream(floors).filter(f -> p.getFloor().equals(f)).findFirst().isPresent());
+                .map(Player::getFloor).toArray(i -> new Floor[i]);
+        for (FullPlayer p : Arrays.stream(FullPlayer.getPlayers()).filter(p -> p.getUser().equals(api.getUser())).toArray(FullPlayer[]::new)) {
+            assertTrue(Arrays.stream(floors).anyMatch(f -> p.getFloor().equals(f)));
         }
     }
 
     @Test
     public void readUsers() {
+        Assert.fail();
         api.login(USERNAME, PASSWORD);
 
         User[] users = User.getUsers();
@@ -89,6 +91,7 @@ public class APITests {
 
     @Test
     public void readStocksFromPlayer() {
+        Assert.fail();
         api.login(USERNAME, PASSWORD);
 
         User myUser = api.getUser();
@@ -102,6 +105,7 @@ public class APITests {
 
     @Test
     public void joinFloor() {
+        Assert.fail();
         api.login(USERNAME, PASSWORD);
         User myUser = api.getUser();
         Floor randomFloor = Arrays.stream(Floor.getFloors()).findAny().get();
@@ -121,6 +125,7 @@ public class APITests {
 
     @Test
     public void createTrade() {
+        Assert.fail();
         api.login(USERNAME, PASSWORD);
         Floor randomFloor = Floor.getFloors()[0];
 
@@ -153,6 +158,7 @@ public class APITests {
 
     @Test
     public void createUser() {
+        Assert.fail();
         final String USERNAME = "testerMcTest";
         final String PASSWORD = "rosebud";
 
@@ -164,6 +170,7 @@ public class APITests {
 
     @Test
     public void registerToken() {
+        Assert.fail();
         final String THIS_IS_A_FAKE_ID = "salkdfjldksajfsaldkjfoiuoiuoiuwoqeiruqwoeirua,smdnc";
         FantasyStocksAPI.getInstance().registerFirebaseId(THIS_IS_A_FAKE_ID);
         System.out.println("GO CHECK THAT THIS RANDOM ID GOT ADDED");

@@ -4,13 +4,13 @@ class FullPlayer implements Player {
     protected static final String MODEL_NAME = "player";
 
     private int id;
-    private AbbreviatedUser user;
-    private AbbreviatedFloor floor;
-    private AbbreviatedStock[] stocks;
+    private User user;
+    private Floor floor;
+    private Stock[] stocks;
     private int points;
     private boolean isFloor;
-    private AbbreviatedTrade[] sentTrades;
-    private AbbreviatedTrade[] receivedTrades;
+    private Trade[] sentTrades;
+    private Trade[] receivedTrades;
     private boolean isFloorOwner;
 
     public int getId() {
@@ -47,6 +47,10 @@ class FullPlayer implements Player {
 
     public boolean isFloorOwner() {
         return isFloorOwner;
+    }
+
+    void setUser(User u) {
+        this.user = u;
     }
 
     public static Player get(int id) {
