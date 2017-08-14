@@ -28,6 +28,7 @@ public class APITests {
 
     @Before
     public void setUp() {
+        System.out.println("Did setup");
         final int NUM_OF_FLOORS = 3;
         backend = new MockNetworkBackend();
         api = new FantasyStocksAPI(backend);
@@ -67,8 +68,7 @@ public class APITests {
     @Test
     public void readFloors() {
         // I'm going to need to do some serious upgrades to my setup method to make this work. *sigh*
-        Assert.fail();
-        api.login(USERNAME, PASSWORD);
+        login();
 
         Floor[] floors = Arrays.stream(api.getUser().getPlayers())
                 .map(Player::getFloor).toArray(i -> new Floor[i]);

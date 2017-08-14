@@ -19,6 +19,7 @@ public class MockNetworkBackend implements NetworkBackend {
 
     @Override
     public String get(String address, Map<String, String> queryString) {
+        System.out.printf("Received get to %s", address);
         GetRequest request = getOutputs.stream()
                 .filter(r -> r.address.equals(address) && r.queryString.equals(queryString))
                 .findFirst()
@@ -37,6 +38,7 @@ public class MockNetworkBackend implements NetworkBackend {
 
     @Override
     public String post(String address, Map<String, String> queryString, String jsonPostData) {
+        System.out.printf("Received post to %s", address);
         PostRequest request = postOutputs.stream()
                 .filter(o -> o.address.equals(address) && gson.fromJson(jsonPostData, JsonObject.class).equals(o.postData) && o.queryString.equals(queryString))
                 .findFirst()
