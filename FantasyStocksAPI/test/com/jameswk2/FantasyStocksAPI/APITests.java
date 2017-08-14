@@ -36,7 +36,7 @@ public class APITests {
             FullFloor next = new FullFloor();
             floors[i] = next;
             next.setId(i);
-            next.setName(String.format("%th floor", i));
+            next.setName(String.format("%dth floor", i));
             FullPlayer usersPlayer = new FullPlayer();
             // Finish making some fake floors to make readFloors() work
         }
@@ -61,7 +61,6 @@ public class APITests {
     public void getUser() {
         login();
         User user = api.getUser();
-        // I don't understand where this is getting its username. So that's good.
         assertEquals(user.getUsername(), USERNAME);
     }
 
