@@ -21,11 +21,10 @@ public class NetworkBackendTests {
     // private static final String TESTING_URL = "http://127.0.0.1:8000/api/v1/";
     private static final String TESTING_ENDPOINT = "test";
     private static URLBackend backend;
-    private static Gson gson;
+    private static final Gson gson = FantasyStocksAPI.gson;
 
     @BeforeClass
     public static void setUp() {
-        gson = new Gson();
         try {
             backend = new URLBackend(new URL(TESTING_URL));
         } catch (MalformedURLException e) {

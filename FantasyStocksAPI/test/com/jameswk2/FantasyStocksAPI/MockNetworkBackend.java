@@ -15,7 +15,7 @@ import java.util.List;
 public class MockNetworkBackend implements NetworkBackend {
     private List<GetRequest> getOutputs = new ArrayList<>();
     private List<PostRequest> postOutputs = new ArrayList<>();
-    private Gson gson = new Gson();
+    private final Gson gson = FantasyStocksAPI.gson;
 
     @Override
     public String get(String address, Map<String, String> queryString) {

@@ -3,10 +3,12 @@ package com.jameswk2.FantasyStocksAPI;
 import com.google.gson.*;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * This is the first class that the client interacts with, where all
@@ -31,8 +33,24 @@ public class FantasyStocksAPI {
 
     private NetworkBackend backend;
 
+    private static GsonBuilder gsonBuilder = new GsonBuilder();
 
-    static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX").create();
+    static {
+        gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+
+        InstanceCreator<User> userInstanceCreator = type -> new AbbreviatedUser();
+        gsonBuilder.registerTypeAdapter(User.class, userInstanceCreator);
+
+        InstanceCreator<Player> playerInstanceCreator = type -> new AbbreviatedPlayer();
+        gsonBuilder.registerTypeAdapter(Player.class, playerInstanceCreator);
+
+        InstanceCreator<Floor> floorInstanceCreator = type -> new AbbreviatedFloor();
+        gsonBuilder.registerTypeAdapter(Floor.class, floorInstanceCreator);
+
+        InstanceCreator<Stock> stockInstanceCreator = type -> new AbbreviatedStock();
+        gsonBuilder.registerTypeAdapter(Stock.class, stockInstanceCreator);
+    }
+    static final Gson gson = gsonBuilder.create();
     private static FantasyStocksAPI instance = null;
 
     private String sessionId;
@@ -139,7 +157,6 @@ public class FantasyStocksAPI {
     public void registerFirebaseId(String id) {
         final String REGISTER_FIREBASE_ID_ENDPOINT = "android/register/";
         JsonObject obj = new JsonObject();
-        Gson gson = new Gson();
         obj.add("registrationToken", new JsonPrimitive(id));
         JsonElement response = gson.fromJson(backend.post(REGISTER_FIREBASE_ID_ENDPOINT,
                 gson.toJson(obj)), JsonElement.class);
@@ -187,7 +204,6 @@ public class FantasyStocksAPI {
     Object[] getModel(String modelName, Class modelClass) {
         final String endpoint = modelName + "/view/";
         String response = backend.get(endpoint);
-        Gson gson = new Gson();
         JsonElement jsonObj = gson.fromJson(response, JsonElement.class);
         if (!jsonObj.isJsonArray())
             throw new RuntimeException(String.format("The json wasn't what I expected. Here it is: %s", jsonObj.toString()));
@@ -210,7 +226,6 @@ public class FantasyStocksAPI {
      * @return the created model. Must be cast to the type you want
      */
     Object createModel(String modelName, JsonObject modelAttributes) {
-        Gson gson = new Gson();
         final String endpoint = modelName + "/create/";
         JsonObject jsonResponse = gson.fromJson(backend.post(endpoint, gson.toJson(modelAttributes)), JsonObject.class);
         if (jsonResponse.has("error"))
@@ -226,7 +241,6 @@ public class FantasyStocksAPI {
     void acceptTrade(Trade t) {
         final String endpoint = FullTrade.MODEL_NAME + "/accept/";
         String response = backend.post(endpoint, "");
-        Gson gson = new Gson();
         JsonObject jsonObj = gson.fromJson(response, JsonObject.class);
         if(jsonObj.has("success"))
             return;
@@ -241,7 +255,6 @@ public class FantasyStocksAPI {
     protected void declineTrade(Trade t) {
         final String endpoint = FullTrade.MODEL_NAME + "/accept/";
         String response = backend.post(endpoint, "");
-        Gson gson = new Gson();
         JsonObject jsonObj = gson.fromJson(response, JsonObject.class);
         if(jsonObj.has("success"))
             return;
