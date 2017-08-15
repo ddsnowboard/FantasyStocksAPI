@@ -72,9 +72,9 @@ public class APITests {
 
         Floor[] floors = Arrays.stream(api.getUser().getPlayers())
                 .map(Player::getFloor).toArray(i -> new Floor[i]);
-        for (FullPlayer p : Arrays.stream(FullPlayer.getPlayers()).filter(p -> p.getUser().equals(api.getUser())).toArray(FullPlayer[]::new)) {
+        Arrays.stream(FullPlayer.getPlayers()).filter(p -> p.getUser().equals(api.getUser())).forEach(p -> {
             assertTrue(Arrays.stream(floors).anyMatch(f -> p.getFloor().equals(f)));
-        }
+        });
     }
 
     @Test
