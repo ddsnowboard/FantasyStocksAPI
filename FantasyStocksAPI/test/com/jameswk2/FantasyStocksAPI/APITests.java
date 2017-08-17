@@ -1,7 +1,9 @@
 package com.jameswk2.FantasyStocksAPI;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,20 +30,50 @@ public class APITests {
 
     @Before
     public void setUp() {
-        System.out.println("Did setup");
-        final int NUM_OF_FLOORS = 3;
         backend = new MockNetworkBackend();
         api = new FantasyStocksAPI(backend);
+    }
+
+    @After
+    public void tearDown() {
+        backend.validateExpectations();
+    }
+
+    private void login() {
+        final String SESSION_ID = "aslkdfjiooasidfj4365936";
+        JsonObject postData = new JsonObject();
+        postData.add("username", new JsonPrimitive(USERNAME));
+        postData.add("password", new JsonPrimitive(PASSWORD));
+        JsonObject responseObject = new JsonObject();
+        responseObject.add("sessionId", new JsonPrimitive(SESSION_ID));
+        FullUser user = new FullUser();
+        user.setId(USER_ID);
+        user.setUsername(USERNAME);
+        responseObject.add("user", toJsonObject(user));
+        backend.expectPost("auth/getKey/", new HashMap<>(), postData, responseObject).setRepeat(true);
+        api.login(USERNAME, PASSWORD);
+
+        final int NUM_OF_FLOORS = 3;
         floors = new Floor[NUM_OF_FLOORS];
-        for(int i = 0; i < NUM_OF_FLOORS; i++) {
+        Player[] players = new Player[NUM_OF_FLOORS];
+        ((FullUser) api.getUser()).setPlayers(players);
+        for(int i = 0; i < floors.length; i++) {
             FullFloor next = new FullFloor();
             floors[i] = next;
             next.setId(i);
             next.setName(String.format("%dth floor", i));
             FullPlayer usersPlayer = new FullPlayer();
-            // Finish making some fake floors to make readFloors() work
+            usersPlayer.setFloor(next);
+            players[i] = usersPlayer;
+            next.setOwner(api.getUser());
+            usersPlayer.setUser(api.getUser());
         }
     }
+
+    private JsonObject toJsonObject(Object o) {
+        return gson.fromJson(gson.toJson(o), JsonObject.class);
+    }
+
 
     @Test
     public void loginTest() {
@@ -54,8 +86,6 @@ public class APITests {
         backend.expectPost("auth/getKey/", new HashMap<>(), postData, responseObject);
 
         api.login(USERNAME, PASSWORD);
-
-        backend.validateExpectations();
     }
 
     @Test
@@ -67,7 +97,7 @@ public class APITests {
 
     @Test
     public void readFloors() {
-        // I'm going to need to do some serious upgrades to my setup method to make this work. *sigh*
+        // Does this work? Hell if I know
         login();
 
         Floor[] floors = Arrays.stream(api.getUser().getPlayers())
@@ -75,17 +105,25 @@ public class APITests {
         Arrays.stream(FullPlayer.getPlayers()).filter(p -> p.getUser().equals(api.getUser())).forEach(p -> {
             assertTrue(Arrays.stream(floors).anyMatch(f -> p.getFloor().equals(f)));
         });
+
+        assertArrayEquals(floors, this.floors);
     }
 
     @Test
     public void readUsers() {
-        Assert.fail();
-        api.login(USERNAME, PASSWORD);
+        // Make a list of users with random ids, give it to the API under the /users/ endpoint, make sure it comes back
+        final int NUM_USERS = 3;
+        User[] users = new User[NUM_USERS];
+        for(int i = 0; i < NUM_USERS; i++) {
+            FullUser u = new FullUser();
+            u.setId(i);
+            users[i] = u;
+        }
 
-        User[] users = User.getUsers();
-        User myUser = api.getUser();
-        assertTrue(Arrays.stream(users).anyMatch(u -> u.equals(myUser)));
-        assertFalse(Arrays.stream(users).filter(u -> !u.equals(myUser)).findFirst().get().getUsername().equals(myUser.getUsername()));
+        JsonArray jsonObj = gson.fromJson(gson.toJson(users), JsonArray.class);
+        backend.expectGet("user/view", new HashMap<>(), jsonObj);
+        User[] retUsers = User.getUsers();
+        assertArrayEquals(retUsers, users);
     }
 
     @Test
@@ -173,28 +211,6 @@ public class APITests {
         final String THIS_IS_A_FAKE_ID = "salkdfjldksajfsaldkjfoiuoiuoiuwoqeiruqwoeirua,smdnc";
         FantasyStocksAPI.getInstance().registerFirebaseId(THIS_IS_A_FAKE_ID);
         System.out.println("GO CHECK THAT THIS RANDOM ID GOT ADDED");
-    }
-
-    private void login() {
-        final String SESSION_ID = "aslkdfjiooasidfj4365936";
-        JsonObject postData = new JsonObject();
-        postData.add("username", new JsonPrimitive(USERNAME));
-        postData.add("password", new JsonPrimitive(PASSWORD));
-        JsonObject responseObject = new JsonObject();
-        responseObject.add("sessionId", new JsonPrimitive(SESSION_ID));
-        FullUser user = new FullUser();
-        user.setId(USER_ID);
-        user.setUsername(USERNAME);
-        responseObject.add("user", toJsonObject(user));
-        backend.expectPost("auth/getKey/", new HashMap<>(), postData, responseObject).setRepeat(true);
-
-
-
-        api.login(USERNAME, PASSWORD);
-    }
-
-    private JsonObject toJsonObject(Object o) {
-        return gson.fromJson(gson.toJson(o), JsonObject.class);
     }
 
 }
