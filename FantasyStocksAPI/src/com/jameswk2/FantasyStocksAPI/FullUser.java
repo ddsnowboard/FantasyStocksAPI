@@ -7,7 +7,7 @@ class FullUser implements User {
 
     private int id;
     private String username;
-    private AbbreviatedPlayer[] players;
+    private Player[] players;
 
     public int getId() {
         return id;
@@ -19,10 +19,10 @@ class FullUser implements User {
 
     @Override
     public Player[] getPlayers() {
-        return Arrays.stream(Player.getPlayers()).filter(p -> p.getUser().equals(this)).toArray(i -> new Player[i]);
+        return players;
     }
 
-    void setPlayers(AbbreviatedPlayer[] players) {
+    void setPlayers(Player[] players) {
         this.players = players;
     }
 

@@ -14,10 +14,10 @@ class FullFloor implements Floor {
     }
     private int id;
     private String name;
-    private AbbreviatedStock[] stocks;
+    private Stock[] stocks;
     private Permissiveness permissiveness;
-    private AbbreviatedUser owner;
-    private AbbreviatedPlayer floorPlayer;
+    private User owner;
+    private Player floorPlayer;
     private boolean isPublic;
     private int numStocks;
 
@@ -61,7 +61,7 @@ class FullFloor implements Floor {
         this.name = name;
     }
 
-    public void setStocks(AbbreviatedStock[] stocks) {
+    public void setStocks(Stock[] stocks) {
         this.stocks = stocks;
     }
 
@@ -69,7 +69,7 @@ class FullFloor implements Floor {
         this.permissiveness = permissiveness;
     }
 
-    public void setOwner(AbbreviatedUser owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 

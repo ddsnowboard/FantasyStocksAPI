@@ -68,9 +68,9 @@ public class MockNetworkBackend implements NetworkBackend {
     }
 
     public void validateExpectations() {
-        if (getOutputs.stream().filter(o -> o.getRepeat() > 0).count() != 0)
+        if (getOutputs.stream().anyMatch(o -> o.getRepeat() > 0))
             throw new RuntimeException("All the specified GETs weren't called");
-        else if (postOutputs.stream().filter(o -> o.getRepeat() > 0).count() != 0)
+        else if (postOutputs.stream().anyMatch(o -> o.getRepeat() > 0))
             throw new RuntimeException("All the specified POSTs weren't called");
     }
 

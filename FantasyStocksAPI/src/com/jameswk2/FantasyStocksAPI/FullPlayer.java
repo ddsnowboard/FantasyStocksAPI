@@ -25,6 +25,10 @@ class FullPlayer implements Player {
         return floor;
     }
 
+    public void setFloor(Floor floor) {
+        this.floor = floor;
+    }
+
     public Stock[] getStocks() {
         return stocks;
     }
