@@ -1,6 +1,7 @@
 package com.jameswk2.FantasyStocksAPI;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -55,13 +56,13 @@ public class MockNetworkBackend implements NetworkBackend {
         return post(address, new HashMap<>(), jsonPostData);
     }
 
-    public PostRequest expectPost(String address, Map<String, String> queryString, JsonObject jsonObj, JsonObject response) {
+    public PostRequest expectPost(String address, Map<String, String> queryString, JsonObject jsonObj, JsonElement response) {
         PostRequest request = new PostRequest(address, jsonObj, queryString, response);
         postOutputs.add(request);
         return request;
     }
 
-    public GetRequest expectGet(String address, Map<String, String> queryString, JsonObject response) {
+    public GetRequest expectGet(String address, Map<String, String> queryString, JsonElement response) {
         GetRequest request = new GetRequest(address, queryString, response);
         getOutputs.add(request);
         return request;
@@ -78,11 +79,11 @@ public class MockNetworkBackend implements NetworkBackend {
     static abstract class ExpectedRequest {
         String address;
         Map<String, String> queryString;
-        JsonObject response;
+        JsonElement response;
 
         private int repeat = 1;
 
-        public ExpectedRequest(String address, Map<String, String> queryString, JsonObject response) {
+        public ExpectedRequest(String address, Map<String, String> queryString, JsonElement response) {
             this.address = address;
             this.queryString = queryString;
             this.response = response;
@@ -105,16 +106,16 @@ public class MockNetworkBackend implements NetworkBackend {
     }
 
     static class PostRequest extends ExpectedRequest {
-        JsonObject postData;
+        JsonElement postData;
 
-        public PostRequest(String address, JsonObject postData, Map<String, String> queryString, JsonObject response) {
+        public PostRequest(String address, JsonObject postData, Map<String, String> queryString, JsonElement response) {
             super(address, queryString, response);
             this.postData = postData;
         }
     }
 
     static class GetRequest extends ExpectedRequest {
-        public GetRequest(String address, Map<String, String> queryString, JsonObject response) {
+        public GetRequest(String address, Map<String, String> queryString, JsonElement response) {
             super(address, queryString, response);
         }
 
