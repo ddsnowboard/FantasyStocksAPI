@@ -121,7 +121,7 @@ public class APITests {
         }
 
         JsonArray jsonObj = gson.fromJson(gson.toJson(users), JsonArray.class);
-        backend.expectGet("user/view", new HashMap<>(), jsonObj);
+        backend.expectGet("user/view/", new HashMap<>(), jsonObj);
         User[] retUsers = User.getUsers();
         assertArrayEquals(retUsers, users);
     }

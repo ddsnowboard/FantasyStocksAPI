@@ -63,14 +63,20 @@ public class FantasyStocksAPI {
      */
     public static FantasyStocksAPI getInstance() {
         if (instance == null)
-            instance = new FantasyStocksAPI(new URLBackend(BASE_URL));
-        return instance;
+            // This constructor sets the `instance` variable
+            return new FantasyStocksAPI(new URLBackend(BASE_URL));
+        else
+            return instance;
     }
 
     /**
      * The package-private constructor. Is only called from the getInstance() method (or unit tests)
      */
     FantasyStocksAPI(NetworkBackend backend) {
+        if (instance == null)
+            instance = this;
+        else
+            throw new RuntimeException("You already made an instance of this");
         this.backend = backend;
     }
 
