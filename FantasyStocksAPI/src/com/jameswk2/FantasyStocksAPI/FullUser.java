@@ -1,13 +1,11 @@
 package com.jameswk2.FantasyStocksAPI;
 
-import java.util.Arrays;
-
 class FullUser implements User {
     protected static final String MODEL_NAME = "user";
 
     private int id;
     private String username;
-    private Player[] players;
+    private transient Player[] players;
 
     public int getId() {
         return id;

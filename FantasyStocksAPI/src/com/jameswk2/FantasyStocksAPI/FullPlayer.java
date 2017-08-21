@@ -17,6 +17,10 @@ class FullPlayer implements Player {
         return id;
     }
 
+    void setId(int id) {
+        this.id = id;
+    }
+
     public User getUser() {
         return user;
     }
@@ -55,6 +59,10 @@ class FullPlayer implements Player {
 
     void setUser(User u) {
         this.user = u;
+    }
+
+    void setStocks(Stock[] stocks) {
+        this.stocks = stocks;
     }
 
     public static Player get(int id) {

@@ -73,10 +73,7 @@ public class FantasyStocksAPI {
      * The package-private constructor. Is only called from the getInstance() method (or unit tests)
      */
     FantasyStocksAPI(NetworkBackend backend) {
-        if (instance == null)
-            instance = this;
-        else
-            throw new RuntimeException("You already made an instance of this");
+        instance = this;
         this.backend = backend;
     }
 

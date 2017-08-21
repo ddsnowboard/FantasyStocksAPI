@@ -6,7 +6,7 @@ class AbbreviatedUser implements User {
 
     private String username;
     private int id;
-    private int[] players;
+    private transient int[] players;
 
     @Override
     public int getId() {
