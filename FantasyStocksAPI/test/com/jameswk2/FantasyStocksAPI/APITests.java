@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 
 import static com.jameswk2.FantasyStocksAPI.FantasyStocksAPI.gson;
@@ -27,6 +28,9 @@ public class APITests {
     private MockNetworkBackend backend;
 
     private Floor[] floors;
+
+    private final int NUM_OF_FLOORS = 3;
+    private final int NUM_OF_STOCKS = 3;
 
     @Before
     public void setUp() {
@@ -53,17 +57,18 @@ public class APITests {
         backend.expectPost("auth/getKey/", new HashMap<>(), postData, responseObject).setRepeat(true);
         api.login(USERNAME, PASSWORD);
 
-        final int NUM_OF_FLOORS = 3;
+        Stock[] stocks = createFakeStocks(NUM_OF_STOCKS);
         floors = new Floor[NUM_OF_FLOORS];
         Player[] players = new Player[NUM_OF_FLOORS];
         ((FullUser) api.getUser()).setPlayers(players);
-        for(int i = 0; i < floors.length; i++) {
+        for (int i = 0; i < floors.length; i++) {
             FullFloor next = new FullFloor();
             floors[i] = next;
             next.setId(i);
             next.setName(String.format("%dth floor", i));
             FullPlayer usersPlayer = new FullPlayer();
             usersPlayer.setFloor(next);
+            usersPlayer.setStocks(stocks.clone());
             players[i] = usersPlayer;
             next.setOwner(api.getUser());
             usersPlayer.setUser(api.getUser());
@@ -114,7 +119,7 @@ public class APITests {
         // Make a list of users with random ids, give it to the API under the /users/ endpoint, make sure it comes back
         final int NUM_USERS = 3;
         User[] users = new User[NUM_USERS];
-        for(int i = 0; i < NUM_USERS; i++) {
+        for (int i = 0; i < NUM_USERS; i++) {
             FullUser u = new FullUser();
             u.setId(i);
             users[i] = u;
@@ -128,36 +133,30 @@ public class APITests {
 
     @Test
     public void readStocksFromPlayer() {
-        Assert.fail();
-        api.login(USERNAME, PASSWORD);
-
-        User myUser = api.getUser();
-        Floor randomFloor = Arrays.stream(Floor.getFloors()).findAny().get();
-        Player randomPlayer = Arrays.stream(Player.getPlayers())
-                .filter(p -> p.getFloor().equals(randomFloor))
-                .findAny()
-                .get();
-        Arrays.stream(randomPlayer.getStocks()).forEach(System.out::println);
+        login();
+        Stock[] stocks = api.getUser().getPlayers()[0].getStocks();
+        assertArrayEquals(stocks, createFakeStocks(NUM_OF_STOCKS));
     }
 
     @Test
     public void joinFloor() {
-        Assert.fail();
-        api.login(USERNAME, PASSWORD);
-        User myUser = api.getUser();
-        Floor randomFloor = Arrays.stream(Floor.getFloors()).findAny().get();
-        try {
-            Player newPlayer = Player.create(myUser, randomFloor);
-            System.out.println(newPlayer);
-            assertTrue(Arrays.stream(Player.getPlayers())
-                    .filter(p -> p.getFloor().equals(randomFloor))
-                    .anyMatch(p -> p.getUser().equals(myUser)));
-            assertEquals(newPlayer.getUser(), myUser);
-            assertEquals(newPlayer.getFloor(), randomFloor);
-        } catch (RuntimeException e) {
-            System.out.println("You probably need to restart the server, if the error is that the model already exists");
-            throw e;
-        }
+        final int ID = 311;
+        login();
+        FullFloor fakeFloor = new FullFloor();
+        fakeFloor.setId(floors[floors.length - 1].getId() + 1);
+        fakeFloor.setName("I'm a fake floor!");
+        JsonObject jsonObj = new JsonObject();
+        jsonObj.addProperty("user", api.getUser().getId());
+        jsonObj.addProperty("floor", fakeFloor.getId());
+        FullPlayer expectedPlayer = new FullPlayer();
+        expectedPlayer.setId(ID);
+        expectedPlayer.setStocks(new Stock[0]);
+        expectedPlayer.setFloor(fakeFloor);
+        expectedPlayer.setUser(api.getUser());
+        JsonObject jsonRet = gson.fromJson(gson.toJson(expectedPlayer), JsonObject.class);
+        backend.expectPost("player/create/", new HashMap<>(), jsonObj, jsonRet);
+        Player newPlayer = Player.create(api.getUser(), fakeFloor);
+        assertEquals(expectedPlayer, newPlayer);
     }
 
     @Test
@@ -213,5 +212,52 @@ public class APITests {
         System.out.println("GO CHECK THAT THIS RANDOM ID GOT ADDED");
     }
 
+    private Stock[] createFakeStocks(int numStocks) {
+        Stock[] stocks = new Stock[numStocks];
+        for (int i = 0; i < numStocks; i++) {
+            final int currentIdx = i;
+            stocks[i] = new Stock() {
+                @Override
+                public int getId() {
+                    return currentIdx;
+                }
+
+                @Override
+                public String getCompanyName() {
+                    return String.format("Company Number %d", currentIdx);
+                }
+
+                @Override
+                public String getSymbol() {
+                    return String.format("C%d", currentIdx);
+                }
+
+                @Override
+                public Date getLastUpdated() {
+                    return null;
+                }
+
+                @Override
+                public double getPrice() {
+                    return 0;
+                }
+
+                @Override
+                public double getChange() {
+                    return 0;
+                }
+
+                @Override
+                public StockSuggestion[] getStockSuggestions() {
+                    return new StockSuggestion[0];
+                }
+
+                public boolean equals(Object other) {
+                    return other instanceof Stock && this.getId() == ((Stock) other).getId();
+                }
+            };
+        }
+        return stocks;
+    }
 }
 
