@@ -33,15 +33,15 @@ public interface Trade {
         jsonObj.addProperty("recipientPlayer", recipientPlayer.getId());
 
         JsonArray senderStockIds = new JsonArray();
-        Arrays.stream(senderStocks).mapToInt(s -> s.getId()).forEach(i -> senderStockIds.add(i));
+        Arrays.stream(senderStocks).mapToInt(Stock::getId).forEach(senderStockIds::add);
         jsonObj.add("senderStocks", senderStockIds);
 
         JsonArray recipientStockIds = new JsonArray();
-        Arrays.stream(recipientStocks).mapToInt(s -> s.getId()).forEach(i -> recipientStockIds.add(i));
+        Arrays.stream(recipientStocks).mapToInt(Stock::getId).forEach(recipientStockIds::add);
         jsonObj.add("recipientStocks", recipientStockIds);
 
         jsonObj.addProperty("floor", floor.getId());
-        return (Trade) FantasyStocksAPI.getInstance().createModel(FullTrade.MODEL_NAME, jsonObj);
+        return FantasyStocksAPI.getInstance().createModel(FullTrade.class, jsonObj);
     }
 
     /**

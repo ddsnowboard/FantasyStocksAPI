@@ -3,6 +3,7 @@ package com.jameswk2.FantasyStocksAPI;
 import com.google.gson.*;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -223,19 +224,28 @@ public class FantasyStocksAPI {
     /**
      * Creates a model given a model name and its attributes
      *
-     * @param modelName       the name of the model class. Each full model class
-     *                        has a MODEL_NAME constant variable that contains the
-     *                        proper model name. You <i>must</i> use this.
+     * @param klass       The class to return. This must be the full version
+     *                    of the class, it <em>cannot</em> be the interface
+     *                    or the abbreviated version.
      * @param modelAttributes the attributes of the model to be created
-     * @return the created model. Must be cast to the type you want
+     * @return the created model, as the type specified by `klass`
      */
-    Object createModel(String modelName, JsonObject modelAttributes) {
+    <T> T createModel(Class<T> klass, JsonObject modelAttributes) {
+        String modelName;
+        try {
+            Field f = klass.getDeclaredField("MODEL_NAME");
+            f.setAccessible(true);
+            modelName = (String) f.get(null);
+        }
+        catch (NoSuchFieldException | IllegalAccessException ex) {
+            throw new RuntimeException("You probably need to add a model_name attribute to " + klass.getCanonicalName(), ex);
+        }
         final String endpoint = modelName + "/create/";
         JsonObject jsonResponse = gson.fromJson(backend.post(endpoint, gson.toJson(modelAttributes)), JsonObject.class);
         if (jsonResponse.has("error"))
             throw new RuntimeException(jsonResponse.get("error").getAsString());
 
-        return gson.fromJson(jsonResponse, JsonObject.class);
+        return gson.fromJson(jsonResponse, klass);
     }
 
     /**

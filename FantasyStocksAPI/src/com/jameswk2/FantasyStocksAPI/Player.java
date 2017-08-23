@@ -25,9 +25,7 @@ public interface Player {
         JsonObject jsonObj = new JsonObject();
         jsonObj.addProperty("user", user.getId());
         jsonObj.addProperty("floor", floor.getId());
-        *****************
-        // This doesn't work. Something is wrong with casting a JosnObject to a Player, apparently
-        return  FantasyStocksAPI.gson.fromJson(FantasyStocksAPI.getInstance().createModel(FullPlayer.MODEL_NAME, jsonObj), Player.class);
+        return  FantasyStocksAPI.getInstance().createModel(FullPlayer.class, jsonObj);
     }
 
     /**
