@@ -82,4 +82,12 @@ class FullPlayer implements Player {
                 ", floor=" + floor +
                 '}';
     }
-}
+
+    public boolean equals(Object o) {
+        if(o instanceof Player) {
+            Player p = ((Player) o);
+            return p.getId() == this.getId() && p.getFloor().getId() == this.getFloor().getId();
+        }
+        else
+            return false;
+    }}
