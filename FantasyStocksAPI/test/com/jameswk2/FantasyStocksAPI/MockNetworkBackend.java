@@ -13,6 +13,7 @@ import java.util.List;
  * This is a mock network backend
  * Created by ddsnowboard on 6/4/17.
  */
+
 public class MockNetworkBackend implements NetworkBackend {
     private List<GetRequest> getOutputs = new ArrayList<>();
     private List<PostRequest> postOutputs = new ArrayList<>();
@@ -24,7 +25,7 @@ public class MockNetworkBackend implements NetworkBackend {
         GetRequest request = getOutputs.stream()
                 .filter(r -> r.address.equals(address) && r.queryString.equals(queryString))
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new RuntimeException(String.format("There was no GET for %s with the specified parameters", address)));
         if(request.getRepeat() == 1)
             getOutputs.remove(request);
         else
@@ -43,11 +44,13 @@ public class MockNetworkBackend implements NetworkBackend {
         PostRequest request = postOutputs.stream()
                 .filter(o -> o.address.equals(address) && gson.fromJson(jsonPostData, JsonObject.class).equals(o.postData) && o.queryString.equals(queryString))
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new RuntimeException(String.format("There was no POST for %s with the specified parameters", address)));
+
         if(request.getRepeat() == 1)
             postOutputs.remove(request);
         else
             request.setRepeat(request.getRepeat() - 1);
+
         return gson.toJson(request.response);
     }
 
