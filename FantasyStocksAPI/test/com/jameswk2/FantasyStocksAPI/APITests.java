@@ -155,41 +155,43 @@ public class APITests {
         expectedPlayer.setUser(api.getUser());
         JsonObject jsonRet = gson.fromJson(gson.toJson(expectedPlayer), JsonObject.class);
         backend.expectPost("player/create/", new HashMap<>(), jsonObj, jsonRet);
-        Player newPlayer = Player.create(api.getUser(), fakeFloor);
-        assertEquals(expectedPlayer, newPlayer);
+        Player.create(api.getUser(), fakeFloor);
+        // Assert that the post was called and we're good
     }
 
     @Test
     public void createTrade() {
-        Assert.fail();
-        api.login(USERNAME, PASSWORD);
-        Floor randomFloor = Floor.getFloors()[0];
+        // This is just to certify that the endpoint was called. I just need
+        // to make some fake stuff in a JSON object and make sure it makes it to
+        // the backend
+        login();
+        final int SENDER_ID = 33;
+        final int RECIPIENT_ID = 12;
+        final int FLOOR_ID = 13;
+        final int NUM_SENDER_STOCKS = 5;
+        final int NUM_RECIPIENT_STOCKS = 3;
+        final int TRADE_ID = 4;
+        JsonObject trade = new JsonObject();
+        trade.addProperty("senderPlayer", SENDER_ID);
+        trade.addProperty("recipientPlayer", RECIPIENT_ID);
+        trade.addProperty("floor", FLOOR_ID);
+        Stock[] senderStocks = createFakeStocks(NUM_SENDER_STOCKS);
+        JsonArray senderStocksJson = new JsonArray();
+        Arrays.stream(senderStocks).mapToInt(Stock::getId).forEach(senderStocksJson::add);
+        trade.add("senderStocks", senderStocksJson);
 
-        Player recipient = Arrays.stream(Player.getPlayers())
-                .filter(p -> p.getFloor().equals(randomFloor))
-                .findFirst()
-                .get();
+        Stock[] recipientStocks = createFakeStocks(NUM_RECIPIENT_STOCKS);
+        JsonArray recipientStocksJson = new JsonArray();
+        Arrays.stream(recipientStocks).mapToInt(Stock::getId).forEach(recipientStocksJson::add);
+        trade.add("recipientStocks", recipientStocksJson);
 
-        Player sender;
-        try {
-            sender = Player.create(api.getUser(), randomFloor);
-        } catch (RuntimeException e) {
-            sender = Arrays.stream(Player.getPlayers())
-                    .filter(p -> p.getUser().equals(api.getUser()))
-                    .findFirst()
-                    .get();
-        }
+        // I just wanted to clone(). Things got out of hand
+        JsonObject returnObject = new JsonObject();
+        returnObject.addProperty("id", TRADE_ID);
+        backend.expectPost("trade/create/", new HashMap<>(), trade, returnObject);
 
-        Stock[] senderStocks = sender.getStocks();
-        Stock[] recipientStocks = recipient.getStocks();
-
-        Trade trade = Trade.create(sender, recipient, senderStocks, recipientStocks, randomFloor);
-        assertEquals(trade.getFloor(), randomFloor);
-
-        assertArrayEquals(trade.getRecipientStocks(), recipientStocks);
-        assertArrayEquals(trade.getSenderStocks(), senderStocks);
-        assertFalse(Arrays.equals(trade.getSenderStocks(), recipientStocks));
-        assertFalse(Arrays.equals(trade.getRecipientStocks(), senderStocks));
+        Trade tradeObj = Trade.create(createFakePlayer(SENDER_ID), createFakePlayer(RECIPIENT_ID), senderStocks, recipientStocks, createFakeFloor(FLOOR_ID));
+        assertEquals(TRADE_ID, tradeObj.getId());
     }
 
     @Test
@@ -258,6 +260,104 @@ public class APITests {
             };
         }
         return stocks;
+    }
+
+    private Floor createFakeFloor(final int id) {
+        return new Floor() {
+            @Override
+            public int getId() {
+                return id;
+            }
+
+            @Override
+            public String getName() {
+                return "A fake floor!";
+            }
+
+            @Override
+            public Stock[] getStocks() {
+                return new Stock[0];
+            }
+
+            @Override
+            public FullFloor.Permissiveness getPermissiveness() {
+                return null;
+            }
+
+            @Override
+            public User getOwner() {
+                return null;
+            }
+
+            @Override
+            public Player getFloorPlayer() {
+                return null;
+            }
+
+            @Override
+            public boolean isPublic() {
+                return false;
+            }
+
+            @Override
+            public int getNumStocks() {
+                return 0;
+            }
+
+            public boolean equals(Object o) {
+                return o instanceof Floor && ((Floor) o).getId() == getId();
+            }
+
+        };
+    }
+
+    private Player createFakePlayer(final int id) {
+        return new Player() {
+            @Override
+            public int getId() {
+                return id;
+            }
+
+            @Override
+            public User getUser() {
+                return null;
+            }
+
+            @Override
+            public Floor getFloor() {
+                return null;
+            }
+
+            @Override
+            public Stock[] getStocks() {
+                return new Stock[0];
+            }
+
+            @Override
+            public int getPoints() {
+                return 0;
+            }
+
+            @Override
+            public boolean isFloor() {
+                return false;
+            }
+
+            @Override
+            public Trade[] getSentTrades() {
+                return new Trade[0];
+            }
+
+            @Override
+            public Trade[] getReceivedTrades() {
+                return new Trade[0];
+            }
+
+            @Override
+            public boolean isFloorOwner() {
+                return false;
+            }
+        };
     }
 }
 
